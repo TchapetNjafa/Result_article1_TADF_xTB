@@ -1,4 +1,6 @@
-# TADF Emitters Computational Data Repository
+# TADF Emitters Computational Data Repository [![DOI](https://zenodo.org/badge/1082469447.svg)](https://doi.org/10.5281/zenodo.17436069)
+
+
 
 This repository contains computational data and results used in two related research articles on thermally activated delayed fluorescence (TADF) emitters.
 
