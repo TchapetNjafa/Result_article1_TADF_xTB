@@ -19,7 +19,7 @@ This dataset supports the following publications:
 
 ### Computational Output Files
 
-- **`Data_calculation_747Mol/`** - Directory containing raw computational output files from the high-throughput screening calculations
+- **`Data_calculation_747Mol/`** - Directory containing raw computational output files from the high-throughput screening calculations and molecular structures
 
 ## Computational Methods
 
