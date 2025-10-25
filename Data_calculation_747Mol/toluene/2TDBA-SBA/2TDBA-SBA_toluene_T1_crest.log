@@ -1,0 +1,587 @@
+ 
+       ╔════════════════════════════════════════════╗
+       ║            ___ ___ ___ ___ _____           ║
+       ║           / __| _ \ __/ __|_   _|          ║
+       ║          | (__|   / _|\__ \ | |            ║
+       ║           \___|_|_\___|___/ |_|            ║
+       ║                                            ║
+       ║  Conformer-Rotamer Ensemble Sampling Tool  ║
+       ║          based on the xTB methods          ║
+       ║                                            ║
+       ╚════════════════════════════════════════════╝
+       Version 3.0.2, Thu Aug  8 07:20:20 UTC 2024
+       commit (e998537) compiled by 'runner@fv-az1425-616'
+ 
+   Cite work conducted with this code as
+
+   • P.Pracht, F.Bohle, S.Grimme, PCCP, 2020, 22, 7169-7192.
+   • S.Grimme, JCTC, 2019, 15, 2847-2862.
+   • P.Pracht, S.Grimme, C.Bannwarth, F.Bohle, S.Ehlert,
+     G.Feldmann, J.Gorges, M.Müller, T.Neudecker, C.Plett,
+     S.Spicher, P.Steinbach, P.Wesołowski, F.Zeller,
+     J. Chem. Phys., 2024, 160, 114110.
+
+   for works involving QCG cite
+
+   • S.Spicher, C.Plett, P.Pracht, A.Hansen, S.Grimme,
+     JCTC, 2022, 18 (5), 3174-3189.
+   • C.Plett, S. Grimme,
+     Angew. Chem. Int. Ed. 2023, 62, e202214477.
+
+   for works involving MECP screening cite
+
+   • P.Pracht, C.Bannwarth, JCTC, 2022, 18 (10), 6370-6385.
+ 
+   Original code
+     P.Pracht, S.Grimme, Universität Bonn, MCTC
+   with help from (alphabetical order):
+     C.Bannwarth, F.Bohle, S.Ehlert, G.Feldmann, J.Gorges,
+     S.Grimme, C.Plett, P.Pracht, S.Spicher, P.Steinbach,
+     P.Wesolowski, F.Zeller
+ 
+   Online documentation is available at
+   https://crest-lab.github.io/crest-docs/
+ 
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+   GNU Lesser General Public License (LGPL) for more details.
+
+ Command line input:
+ $ crest data2507/toluene/2TDBA-SBA/2TDBA-SBA_toluene_T1_preOpt.xtbopt.xyz --gfn2 --mquick --prop hess --noreftopo --uhf 2 --gbsa toluene --T 40
+
+  --gfn2               : Use of GFN2-xTB requested.
+  --mquick  : very crude quick-mode (no NORMMD, no GC, crude opt.)
+  --uhf 2
+  --gbsa toluene : implicit solvation
+  --T 40 (CPUs/Threads selected)
+
+> Setting up backup calculator ... done.
+ ----------------
+ Calculation info
+ ----------------
+> User-defined calculation level:
+ : xTB calculation via tblite lib
+ : GFN2-xTB level
+ :   Molecular charge    : 0
+ :   UHF parameter       : 2
+ :   Solvation model     : gbsa
+ :   Solvent             : toluene
+ :   Fermi temperature   : 300.00000
+ :   Accuracy            : 1.00000
+ :   max SCC cycles      : 500
+ 
+ 
+ -----------------------------
+ Initial Geometry Optimization
+ -----------------------------
+ Geometry successfully optimized.
+ 
+          ┍━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┑
+          │              CREST iMTD-GC SAMPLING             │
+          ┕━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┙
+ 
+ Input structure:
+  153
+ 
+ C         13.1621330321       -3.9627777142       -2.2770489317
+ C         12.7353068210       -2.7419045580       -1.4578186314
+ C         13.2100568304       -2.9452052429       -0.0118582452
+ C         13.4182267273       -1.5035732473       -2.0559782154
+ C         11.2289912261       -2.5332655717       -1.4576899105
+ C         10.3473405768       -3.3932454916       -2.1097146048
+ C          8.9843303610       -3.1737281305       -2.0527753605
+ C          8.4698218503       -2.0830437182       -1.3594504173
+ C          9.3241682488       -1.1591677879       -0.7186453255
+ C         10.6923755551       -1.4465435745       -0.7804061902
+ B          8.6604611291        0.0434758156       -0.0099309186
+ C          9.2218755202        1.3137889512        0.6671067760
+ C         10.5565950442        1.7453966991        0.6572792180
+ C         11.0015694981        2.8855401733        1.3037503965
+ C         12.4532913175        3.3366956035        1.2801533221
+ C         12.9876645691        3.3828813041        2.7186834766
+ C         12.5299020082        4.7365696986        0.6540970731
+ C         13.3529854908        2.4013867098        0.4672317055
+ C         10.0619837444        3.6462071796        2.0049884808
+ C          8.7316629852        3.2846543004        2.0194026383
+ C          8.3050734760        2.1421347156        1.3473790863
+ O          6.9573132049        1.9233336617        1.4044745749
+ C          6.3735050167        0.9104305316        0.7226083218
+ C          4.9853881814        0.8488675662        0.7522628736
+ C          4.3356399963       -0.1685383071        0.0587998056
+ N          2.9123790507       -0.2241066972        0.0673004032
+ C          2.2079021888        0.5997880825       -0.7874429587
+ C          2.8908812386        1.4443868715       -1.6716437241
+ C          2.2001789103        2.2752596846       -2.5267902451
+ C          0.8135921885        2.2843992374       -2.5258354348
+ C          0.1321154954        1.4447863586       -1.6646629687
+ C          0.8082458245        0.6010148745       -0.7976106072
+ C         -0.0024167081       -0.2997675588        0.1106098942
+ C          0.8805617680       -1.1761885902        0.9719049996
+ C          0.2743383331       -2.0689168204        1.8415437845
+ C          1.0230650030       -2.8827630185        2.6711313247
+ C          2.4066885862       -2.7960228606        2.6385370037
+ C          3.0286536581       -1.9150362860        1.7806302133
+ C          2.2775259182       -1.0972412472        0.9272094309
+ C         -0.8344212166        0.5739600398        1.0252613303
+ C         -0.1793125969        1.4011022533        1.9238505148
+ C         -0.8815034938        2.2218741877        2.7866102303
+ C         -2.2677667029        2.2112534620        2.7560037072
+ C         -2.9377458434        1.3969134305        1.8689943153
+ C         -2.2335049997        0.5709028932        0.9840137974
+ N         -2.9173191030       -0.2380429602        0.0987745669
+ C         -4.3394220682       -0.1682682355        0.0601873761
+ C         -5.0975380166       -1.1257475085        0.7280804182
+ C         -6.4844493557       -1.0447464624        0.6819457416
+ C         -7.1404118106       -0.0121804443       -0.0090779409
+ C         -6.3408217247        0.9374528629       -0.6667403418
+ C         -4.9531134355        0.8639410458       -0.6435266651
+ O         -6.8899055541        1.9632048607       -1.3581241471
+ C         -8.2374083106        2.1909800684       -1.3526496780
+ C         -8.6289824200        3.3444819441       -2.0273407132
+ C         -9.9563109309        3.7153909675       -2.0613765181
+ C        -10.9281206476        2.9542099104       -1.4060574803
+ C        -12.3763697120        3.4159191824       -1.4347799053
+ C        -12.8574449815        3.4619500899       -2.8919442646
+ C        -12.4666271525        4.8178319587       -0.8150518502
+ C        -13.3109561570        2.4887794992       -0.6526158655
+ C        -10.5177373269        1.8022745525       -0.7574625083
+ C         -9.1867363272        1.3607274942       -0.7210731752
+ B         -8.6613014078        0.0765012034       -0.0412488296
+ C         -9.3604860854       -1.1361669309        0.6127513245
+ C        -10.7346234960       -1.4176063017        0.5947184296
+ C        -11.3031391839       -2.5142165319        1.2193831570
+ C        -12.7958058957       -2.8014737742        1.1888356806
+ C        -13.3337365384       -2.8125789143        2.6266804067
+ C        -13.5851563416       -1.7583296545        0.3928256881
+ C        -13.0264182324       -4.1733585575        0.5390040624
+ C        -10.4539203600       -3.3874188505        1.9046649790
+ C         -9.0919714826       -3.1745601788        1.9261881568
+ C         -8.5411774663       -2.0724666527        1.2772446412
+ O         -7.1777827703       -2.0018917244        1.3415679295
+ C         -2.2624945417       -1.1083506229       -0.7491614349
+ C         -2.9931704146       -1.9260556886       -1.6202228242
+ C         -2.3510734151       -2.8055999487       -2.4646663193
+ C         -0.9670390048       -2.8909061740       -2.4660888382
+ C         -0.2381015537       -2.0761624651       -1.6199393558
+ C         -0.8647573743       -1.1849744194       -0.7633187059
+ C          5.0591583817       -1.1238310195       -0.6489744333
+ C          6.4474873591       -1.0544837186       -0.6562497052
+ C          7.1391557084       -0.0361116097        0.0213325673
+ O          7.1054448391       -2.0077136970       -1.3563590099
+ H         12.8626319788       -3.8586893158       -3.3172422411
+ H         12.7325467906       -4.8756059912       -1.8713330010
+ H         14.2455957319       -4.0597777322       -2.2468663542
+ H         12.7271028557       -3.8179325927        0.4225036076
+ H         12.9735271003       -2.0837342918        0.6061759015
+ H         14.2870281694       -3.0984572633        0.0113438409
+ H         14.4958649576       -1.6499616009       -2.0895846664
+ H         13.0612604653       -1.3302668925       -3.0689286440
+ H         13.2149526956       -0.6148398852       -1.4660470327
+ H         10.7048325502       -4.2483282959       -2.6581524460
+ H          8.2958472403       -3.8489992336       -2.5380495473
+ H         11.3584261053       -0.7848296201       -0.2545750692
+ H         11.2536003333        1.1517792212        0.0956599289
+ H         12.9188347977        2.3983699365        3.1767241168
+ H         12.4222134130        4.0818116839        3.3282328595
+ H         14.0302972739        3.6939623060        2.7218166882
+ H         11.9571657309        5.4584758368        1.2291433232
+ H         12.1338927602        4.7166229168       -0.3590645040
+ H         13.5634158939        5.0744701409        0.6152160224
+ H         13.3593568508        1.4002295038        0.8919080155
+ H         13.0286297554        2.3505798316       -0.5695148125
+ H         14.3738948165        2.7778943685        0.4817369074
+ H         10.3612862165        4.5371324850        2.5345610503
+ H          7.9991031456        3.8827056578        2.5400517796
+ H          4.4225555373        1.5877713822        1.3004082117
+ H          3.9689808419        1.4379856451       -1.6818949148
+ H          2.7468242069        2.9186090780       -3.1992917734
+ H          0.2705637438        2.9359840768       -3.1923352449
+ H         -0.9477927785        1.4378909151       -1.6608433121
+ H         -0.8044199889       -2.1199794164        1.8642689782
+ H          0.5340739708       -3.5735823135        3.3399263237
+ H          3.0048261917       -3.4180003270        3.2868915807
+ H          4.1047152832       -1.8481655185        1.7641259065
+ H          0.9005415139        1.3962654231        1.9430414454
+ H         -0.3547111055        2.8606702004        3.4780475541
+ H         -2.8304052162        2.8404127180        3.4287452125
+ H         -4.0158321801        1.3888195754        1.8545220050
+ H         -4.6197787533       -1.9243606902        1.2732336850
+ H         -4.3634017913        1.6043995513       -1.1604370734
+ H         -7.8722474377        3.9431992580       -2.5113655841
+ H        -10.2283506272        4.6139530674       -2.5927561555
+ H        -12.2621325850        4.1521540892       -3.4828229374
+ H        -13.8958560052        3.7840154960       -2.9344052535
+ H        -12.7825263527        2.4747761666       -3.3431760578
+ H        -12.1036918154        4.7987643783        0.2104431274
+ H        -11.8729540838        5.5363000445       -1.3728210170
+ H        -13.4993745830        5.1602476595       -0.8103351298
+ H        -14.3270245159        2.8755819409       -0.6996823980
+ H        -13.0201542551        2.4344378497        0.3937936716
+ H        -13.3136717864        1.4878083726       -1.0770512470
+ H        -11.2410527179        1.2068097472       -0.2321374057
+ H        -11.3613894313       -0.7397774192        0.0457193786
+ H        -13.1582752713       -1.8490127859        3.1004736282
+ H        -12.8488621852       -3.5790082799        3.2244321722
+ H        -14.4041432825       -3.0076789997        2.6252436506
+ H        -14.6414297549       -2.0199516328        0.4011621766
+ H        -13.4812158546       -0.7698913037        0.8336898345
+ H        -13.2552967828       -1.7262525951       -0.6428501728
+ H        -12.5394274438       -4.9644752546        1.1018546100
+ H        -14.0910870798       -4.3930587238        0.4936343435
+ H        -12.6281166664       -4.1805491655       -0.4734384799
+ H        -10.8502504541       -4.2503355305        2.4166300473
+ H         -8.4307272910       -3.8594417866        2.4351971933
+ H         -4.0693588961       -1.8605640108       -1.6282078551
+ H         -2.9338200734       -3.4275911920       -3.1268848030
+ H         -0.4623397253       -3.5806074336       -3.1242878570
+ H          0.8409258434       -2.1252551102       -1.6197676793
+ H          4.5539335842       -1.9111229509       -1.1857778967
+ 
+ ------------------------------------------------
+ Generating MTD length from a flexibility measure
+ ------------------------------------------------
+ Calculating GFN0-xTB WBOs   ... done.
+ Calculating NCI flexibility ... done.
+     covalent flexibility measure :   0.066
+ non-covalent flexibility measure :   0.623
+ flexibility measure :   0.113
+ t(MTD) / ps    :     7.5
+ Σ(t(MTD)) / ps :    45.0 (6 MTDs)
+ 
+ -----------------------------------
+ Starting trial MTD to test settings
+ -----------------------------------
+ Trial MTD 1 runtime (1.0 ps) ...        3 min,  9.469 sec
+ Estimated runtime for one MTD (7.5 ps) on a single thread: 23 min 41 sec
+ Estimated runtime for a batch of 6 MTDs on 40 threads: 3 min 57 sec
+ 
+******************************************************************************************
+**                         N E W   I T E R A T I O N  C Y C L E                         **
+******************************************************************************************
+ 
+ ------------------------------
+ Meta-Dynamics Iteration 1
+ ------------------------------
+ list of applied metadynamics Vbias parameters:
+$metadyn    0.30600   1.000
+$metadyn    0.15300   1.000
+$metadyn    0.30600   0.500
+$metadyn    0.15300   0.500
+$metadyn    0.30600   0.250
+$metadyn    0.15300   0.250
+ 
+  ::::::::::::: starting MTD    1 :::::::::::::
+  |   MD simulation time   :     7.5 ps       |
+  |   target T             :   300.0 K        |
+  |   timestep dt          :     5.0 fs       |
+  |   dump interval(trj)   :   100.0 fs       |
+  |   SHAKE algorithm      : true (all bonds) |
+  |   dump interval(Vbias) :    1.00 ps       |
+  |   Vbias prefactor (k)  :  0.3060 Eh       |
+  |   Vbias exponent (α)   :  1.0000 bohr⁻²   |
+  ::::::::::::: starting MTD    5 :::::::::::::
+  |   MD simulation time   :     7.5 ps       |
+  |   target T             :   300.0 K        |
+  |   timestep dt          :     5.0 fs       |
+  |   dump interval(trj)   :   100.0 fs       |
+  |   SHAKE algorithm      : true (all bonds) |
+  |   dump interval(Vbias) :    1.00 ps       |
+  |   Vbias prefactor (k)  :  0.3060 Eh       |
+  |   Vbias exponent (α)   :  0.2500 bohr⁻²   |
+  ::::::::::::: starting MTD    4 :::::::::::::
+  |   MD simulation time   :     7.5 ps       |
+  |   target T             :   300.0 K        |
+  |   timestep dt          :     5.0 fs       |
+  |   dump interval(trj)   :   100.0 fs       |
+  |   SHAKE algorithm      : true (all bonds) |
+  |   dump interval(Vbias) :    1.00 ps       |
+  |   Vbias prefactor (k)  :  0.1530 Eh       |
+  |   Vbias exponent (α)   :  0.5000 bohr⁻²   |
+  ::::::::::::: starting MTD    3 :::::::::::::
+  |   MD simulation time   :     7.5 ps       |
+  |   target T             :   300.0 K        |
+  |   timestep dt          :     5.0 fs       |
+  |   dump interval(trj)   :   100.0 fs       |
+  |   SHAKE algorithm      : true (all bonds) |
+  |   dump interval(Vbias) :    1.00 ps       |
+  |   Vbias prefactor (k)  :  0.3060 Eh       |
+  |   Vbias exponent (α)   :  0.5000 bohr⁻²   |
+  ::::::::::::: starting MTD    2 :::::::::::::
+  |   MD simulation time   :     7.5 ps       |
+  |   target T             :   300.0 K        |
+  |   timestep dt          :     5.0 fs       |
+  |   dump interval(trj)   :   100.0 fs       |
+  |   SHAKE algorithm      : true (all bonds) |
+  |   dump interval(Vbias) :    1.00 ps       |
+  |   Vbias prefactor (k)  :  0.1530 Eh       |
+  |   Vbias exponent (α)   :  1.0000 bohr⁻²   |
+  ::::::::::::: starting MTD    6 :::::::::::::
+  |   MD simulation time   :     7.5 ps       |
+  |   target T             :   300.0 K        |
+  |   timestep dt          :     5.0 fs       |
+  |   dump interval(trj)   :   100.0 fs       |
+  |   SHAKE algorithm      : true (all bonds) |
+  |   dump interval(Vbias) :    1.00 ps       |
+  |   Vbias prefactor (k)  :  0.1530 Eh       |
+  |   Vbias exponent (α)   :  0.2500 bohr⁻²   |
+*MTD   6 completed successfully ...       25 min, 36.260 sec
+*MTD   5 completed successfully ...       25 min, 40.161 sec
+*MTD   4 completed successfully ...       25 min, 58.521 sec
+*MTD   2 completed successfully ...       26 min,  2.127 sec
+*MTD   1 completed successfully ...       26 min,  5.038 sec
+*MTD   3 completed successfully ...       26 min,  8.291 sec
+ 
+ ======================================
+ |  Multilevel Ensemble Optimization  |
+ ======================================
+ Optimizing all 444 structures from file "crest_dynamics.trj" ...
+ ----------------------
+ crude pre-optimization
+ ----------------------
+ Optimization engine: ANCOPT
+ Hessian update type: BFGS
+ E/G convergence criteria:  0.500E-03 Eh, 0.100E-01 Eh/a0
+ maximum optimization steps: 200
+ |>0.2% |>10.1% |>20.0% |>30.2% |>40.1% |>50.0% |>60.1% |>70.0% |>80.2% |>90.1% |>100.0%
+ done.
+> 444 of 444 structures successfully optimized (100.0% success)
+> Total runtime for 444 optimizations:
+ * wall-time:     0 d,  0 h,  6 min, 20.030 sec
+ *  cpu-time:     0 d,  4 h, 13 min, 19.119 sec
+ * ratio c/w:    39.995 speedup
+> Corresponding to approximately 0.856 sec per processed structure
+ 
+CREGEN> running RMSDs ... done.
+CREGEN> E lowest :  -224.27923
+ 107 structures remain within     5.00 kcal/mol window
+ ----------------------------------
+ optimization with loose thresholds
+ ----------------------------------
+ Optimization engine: ANCOPT
+ Hessian update type: BFGS
+ E/G convergence criteria:  0.500E-04 Eh, 0.400E-02 Eh/a0
+ maximum optimization steps: 200
+ |>0.9% |>10.3% |>20.6% |>30.8% |>40.2% |>50.5% |>60.7% |>70.1% |>80.4% |>90.7% |>100.0%
+ done.
+> 107 of 107 structures successfully optimized (100.0% success)
+> Total runtime for 107 optimizations:
+ * wall-time:     0 d,  0 h,  1 min, 13.707 sec
+ *  cpu-time:     0 d,  0 h, 49 min,  7.885 sec
+ * ratio c/w:    39.995 speedup
+> Corresponding to approximately 0.689 sec per processed structure
+ 
+CREGEN> running RMSDs ... done.
+CREGEN> E lowest :  -224.28047
+ 86 structures remain within     4.00 kcal/mol window
+ 
+========================================
+           MTD Simulations done         
+========================================
+ Collecting ensmbles.
+CREGEN> running RMSDs ... done.
+CREGEN> E lowest :  -224.28047
+ 68 structures remain within     2.50 kcal/mol window
+
+
+   ================================================
+   |           Final Geometry Optimization        |
+   ================================================
+ Optimizing all 68 structures from file "crest_rotamers_1.xyz" ...
+ ------------------------------------
+ optimization with regular thresholds
+ ------------------------------------
+ Optimization engine: ANCOPT
+ Hessian update type: BFGS
+ E/G convergence criteria:  0.500E-05 Eh, 0.100E-02 Eh/a0
+ maximum optimization steps: 200
+ |>1.5% |>10.3% |>20.6% |>30.9% |>41.2% |>50.0% |>60.3% |>70.6% |>80.9% |>91.2% |>100.0%
+ done.
+> 68 of 68 structures successfully optimized (100.0% success)
+> Total runtime for 68 optimizations:
+ * wall-time:     0 d,  0 h,  2 min, 29.376 sec
+ *  cpu-time:     0 d,  1 h, 39 min, 34.452 sec
+ * ratio c/w:    39.996 speedup
+> Corresponding to approximately 2.197 sec per processed structure
+ 
+CREGEN> running RMSDs ... done.
+CREGEN> E lowest :  -224.28060
+ 60 structures remain within     2.50 kcal/mol window
+
+
+ --------------------------
+ Final Ensemble Information
+ --------------------------
+ input  file name : crest_rotamers_1.xyz
+ output file name : crest_rotamers_2.xyz
+ number of atoms                :   153
+ number of points on xyz files  :   68
+ RMSD threshold                 :   0.1250
+ Bconst threshold               :   0.0100
+ population threshold           :   0.0500
+ # fragment in coord            :     1
+ # bonds in reference structure :   168
+ number of reliable points      :    68
+ sorting energy window (EWIN)   :    2.5000 / kcal*mol⁻¹
+ reference state Etot           :  -224.280604710000
+ number of doubles removed by rot/RMSD         :           8
+ total number unique points considered further :          60
+       Erel/kcal        Etot weight/tot  conformer     set   degen     origin
+       1   0.000  -224.28060    0.04388    0.08431       1       2
+       2   0.049  -224.28053    0.04042
+       3   0.101  -224.28044    0.03702    0.03702       2       1
+       4   0.108  -224.28043    0.03656    0.10862       3       3
+       5   0.113  -224.28042    0.03626
+       6   0.121  -224.28041    0.03579
+       7   0.164  -224.28034    0.03329    0.15984       4       5
+       8   0.180  -224.28032    0.03238
+       9   0.183  -224.28031    0.03223
+      10   0.204  -224.28028    0.03111
+      11   0.209  -224.28027    0.03082
+      12   0.258  -224.28019    0.02839    0.05674       5       2
+      13   0.259  -224.28019    0.02835
+      14   0.349  -224.28005    0.02435    0.02435       6       1
+      15   0.374  -224.28001    0.02334    0.04486       7       2
+      16   0.422  -224.27993    0.02153
+      17   0.415  -224.27994    0.02179    0.02179       8       1
+      18   0.437  -224.27991    0.02099    0.02099       9       1
+      19   0.483  -224.27983    0.01943    0.01943      10       1
+      20   0.527  -224.27976    0.01804    0.03523      11       2
+      21   0.556  -224.27972    0.01719
+      22   0.566  -224.27970    0.01689    0.03374      12       2
+      23   0.568  -224.27970    0.01685
+      24   0.595  -224.27966    0.01609    0.03177      13       2
+      25   0.610  -224.27963    0.01568
+      26   0.620  -224.27962    0.01541    0.01541      14       1
+      27   0.648  -224.27957    0.01472    0.05550      15       4
+      28   0.694  -224.27950    0.01362
+      29   0.694  -224.27950    0.01360
+      30   0.697  -224.27949    0.01356
+      31   0.696  -224.27950    0.01356    0.02675      16       2
+      32   0.713  -224.27947    0.01319
+      33   0.699  -224.27949    0.01349    0.02627      17       2
+      34   0.731  -224.27944    0.01278
+      35   0.733  -224.27944    0.01276    0.01276      18       1
+      36   0.739  -224.27943    0.01262    0.01262      19       1
+      37   0.797  -224.27933    0.01144    0.02274      20       2
+      38   0.805  -224.27932    0.01129
+      39   0.870  -224.27922    0.01011    0.01011      21       1
+      40   0.875  -224.27921    0.01003    0.01003      22       1
+      41   0.888  -224.27919    0.00982    0.01924      23       2
+      42   0.912  -224.27915    0.00942
+      43   0.930  -224.27912    0.00915    0.00915      24       1
+      44   0.893  -224.27918    0.00973    0.00973      25       1
+      45   0.947  -224.27910    0.00889    0.00889      26       1
+      46   0.976  -224.27905    0.00846    0.00846      27       1
+      47   1.025  -224.27897    0.00779    0.01541      28       2
+      48   1.038  -224.27895    0.00762
+      49   1.034  -224.27896    0.00767    0.01476      29       2
+      50   1.081  -224.27888    0.00709
+      51   1.072  -224.27890    0.00720    0.00720      30       1
+      52   1.107  -224.27884    0.00678    0.00678      31       1
+      53   1.119  -224.27882    0.00665    0.01284      32       2
+      54   1.161  -224.27875    0.00619
+      55   1.233  -224.27864    0.00549    0.00549      33       1
+      56   1.381  -224.27840    0.00427    0.00427      34       1
+      57   1.658  -224.27796    0.00268    0.00268      35       1
+      58   1.983  -224.27745    0.00155    0.00155      36       1
+      59   2.075  -224.27730    0.00133    0.00133      37       1
+      60   2.077  -224.27729    0.00132    0.00132      38       1
+T /K                                  :   298.15
+E lowest                              :  -224.28060
+ensemble average energy (kcal)        :    0.452
+ensemble entropy (J/mol K, cal/mol K) :   32.328    7.726
+ensemble free energy (kcal/mol)       :   -2.304
+population of lowest in %             :    8.431
+ number of unique conformers for further calc           38
+ list of relative energies saved as "crest.energies"
+ 
+******************************************************************************************
+**                     P R O P E R T Y   C A L C U L A T I O N                          **
+******************************************************************************************
+ writing TMPCONF* Dirs from file "crest_conformers.xyz" ... done.
+ ---------------------------------------
+ Hessian calculations for all conformers
+ ---------------------------------------
+ Performing calculations for 38 structures ...
+ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 
+ done.
+ input  file name : crest_property.xyz
+ output file name : crest_property.xyz.sorted
+ number of atoms                :   153
+ number of points on xyz files  :   38
+ RMSD threshold                 :   0.1250
+ Bconst threshold               :   0.0100
+ population threshold           :   0.0500
+ # fragment in coord            :     1
+ # bonds in reference structure :   168
+ number of reliable points      :    38
+ sorting energy window (EWIN)   :    2.5000 / kcal*mol⁻¹
+ number of removed by energy    :   4
+ number of remaining points     :   34
+ reference state Etot           :  -223.245790490400     
+CREGEN> running RMSDs ... done.
+ number of doubles removed by rot/RMSD         :           0
+ total number unique points considered further :          34
+       Erel/kcal        Etot weight/tot  conformer     set   degen     origin
+       1   0.000  -223.24579    0.14405    0.14405       1       1     
+       2   0.231  -223.24542    0.09762    0.09762       2       1     
+       3   0.379  -223.24519    0.07606    0.07606       3       1     
+       4   0.524  -223.24496    0.05953    0.11551       4       2     
+       5   0.561  -223.24490    0.05598                                
+       6   0.586  -223.24486    0.05359    0.05359       5       1     
+       7   0.736  -223.24462    0.04165    0.12123       6       3     
+       8   0.743  -223.24461    0.04113                                
+       9   0.783  -223.24454    0.03845                                
+      10   0.875  -223.24440    0.03295    0.06436       7       2     
+      11   0.903  -223.24435    0.03141                                
+      12   0.926  -223.24431    0.03022    0.03022       8       1     
+      13   0.977  -223.24423    0.02774    0.02774       9       1     
+      14   1.002  -223.24419    0.02658    0.02658      10       1     
+      15   1.048  -223.24412    0.02459    0.02459      11       1     
+      16   1.058  -223.24410    0.02418    0.02418      12       1     
+      17   1.092  -223.24405    0.02283    0.02283      13       1     
+      18   1.151  -223.24396    0.02068    0.02068      14       1     
+      19   1.229  -223.24383    0.01812    0.01812      15       1     
+      20   1.297  -223.24372    0.01618    0.03149      16       2     
+      21   1.329  -223.24367    0.01531                                
+      22   1.330  -223.24367    0.01528    0.03026      17       2     
+      23   1.342  -223.24365    0.01498                                
+      24   1.404  -223.24355    0.01349    0.01349      18       1     
+      25   1.555  -223.24331    0.01046    0.02079      19       2     
+      26   1.563  -223.24330    0.01033                                
+      27   1.811  -223.24290    0.00680    0.00680      20       1     
+      28   1.814  -223.24290    0.00676    0.00676      21       1     
+      29   1.827  -223.24288    0.00661    0.00661      22       1     
+      30   1.986  -223.24263    0.00506    0.00506      23       1     
+      31   2.242  -223.24222    0.00329    0.00329      24       1     
+      32   2.267  -223.24218    0.00315    0.00315      25       1     
+      33   2.365  -223.24202    0.00267    0.00267      26       1     
+      34   2.461  -223.24187    0.00227    0.00227      27       1     
+T /K                                  :   298.15
+E lowest                              :  -223.24579
+ensemble average energy (kcal)        :    0.704
+ensemble entropy (J/mol K, cal/mol K) :   25.984    6.210
+ensemble free energy (kcal/mol)       :   -1.852
+population of lowest in %             :   14.405
+ number of unique conformers for further calc           27
+ list of relative energies saved as "crest.energies"
+ 
+ -----------------
+ Wall Time Summary
+ -----------------
+ CREST runtime (total)               0 d,  0 h, 55 min, 56.562 sec
+ ------------------------------------------------------------------
+ Trial metadynamics (MTD)   ...        3 min,  9.471 sec (  5.645%)
+ Metadynamics (MTD)         ...       26 min, 11.891 sec ( 46.830%)
+ Geometry optimization      ...       10 min,  5.881 sec ( 18.051%)
+ PROPERTY calc.             ...       16 min, 25.853 sec ( 29.371%)
+ I/O and setup              ...        0 min,  3.466 sec (  0.103%)
+ ------------------------------------------------------------------
+ * wall-time:     0 d,  0 h, 55 min, 56.562 sec
+ *  cpu-time:     1 d,  6 h, 25 min, 29.664 sec
+ * ratio c/w:    32.632 speedup
+ ------------------------------------------------------------------
+ * Total number of energy+grad calls: 24250
+ 
+ CREST terminated normally.
