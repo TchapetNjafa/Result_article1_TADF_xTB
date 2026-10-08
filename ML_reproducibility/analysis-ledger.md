@@ -5,7 +5,7 @@ Append-only. No number reaches the manuscript except through an entry here.
 ---
 
 ### A-001 .. A-003 — ARCHIVED 2026-09-03
-Full entries: `outputs/analysis/archive/ledger-A001-A003-2026-09.md` (grep target, do not read to restore context).
+Full entries: `analysis-ledger-archive/ledger-A001-A003-2026-09.md` (grep target, do not read to restore context).
 - **A-001** sTDA gap head-to-head, 7 predictors, scaffold GroupKFold → `data/ref1_gap_baseline.json`.
   Raw sTDA gap MAE 0.251 / R² −2.22 / bias +0.221; calibrated 0.104; as a feature, no change.
 - **A-002** P1 paired baseline test, P2 DOI-grouped CV (173 papers), P3 split geometry → `data/ref3_p1p2p3.json`.
@@ -16,7 +16,7 @@ Full entries: `outputs/analysis/archive/ledger-A001-A003-2026-09.md` (grep targe
   quote for how precisely the target is known. States it does NOT support 'label noise alone explains the error'.
 
 ### A-004 — ARCHIVED 2026-09-04
-Full entry: `outputs/analysis/archive/ledger-A004-2026-09.md` (grep target).
+Full entry: `analysis-ledger-archive/ledger-A004-2026-09.md` (grep target).
 Referee-3 points 4-7 verdicts. Key numbers still cited: **P4** expansion to 728 raises MAE 0.098->0.124,
 R2 0.18->-0.01, rho 0.34->0.16 (caveat i: different structure pipeline, confounded). **P5** every one of the
 top-100 conformal intervals spans a negative gap; **mean ratio of interval WIDTH to predicted value = 7.6**
@@ -25,133 +25,40 @@ bias +0.071, r2 0.704, rho 0.711, slope 1.002, intercept 0.070, max dev 0.548. *
 n_with_smiles=0; 5 IST molecules in corpus.
 
 ### A-005 — ARCHIVED 2026-09-04
-Full entry: `outputs/analysis/archive/ledger-A005-2026-09.md` (grep target).
+Full entry: `analysis-ledger-archive/ledger-A005-2026-09.md` (grep target).
 TD-DFT reference, wB97X-D4/def2-SVP RIJCOSX TDA, 231/231 converged, 604.5 core-h. Key numbers:
 raw TD-DFT gap MAE **0.654** / R² **-16.3** / signed bias **+0.654** (worst predictor in the study);
 calibrated in-fold **0.099**; Morgan+gap **0.087** vs Morgan 0.091 (ΔMAE +0.0039, CI [+0.0004,+0.0071],
 Wilcoxon p 0.016); NTO+gap 0.092 vs 0.096. Pearson r vs experiment 0.43 (not >0.95). Claim C9.
 
 ### A-006 — ARCHIVED 2026-09-05
-Full entry: `outputs/analysis/archive/ledger-A006-2026-09.md` (grep target).
+Full entry: `analysis-ledger-archive/ledger-A006-2026-09.md` (grep target).
 T1 Morgan-vs-NTO paired equivalence: dMAE -0.0043, CI [-0.0171,+0.0092], Wilcoxon p 0.657,
 **margin 0.017 eV**. T2 DOI split: NTO rho 0.346 vs Morgan 0.155, **drho +0.191 CI [+0.037,+0.344]**
 (caveat iv: resamples molecules not DOI groups). T3 enrichment -> superseded by A-006b.
 T4 ceiling audit: stored rss_floor 0.1282 > rf_mae 0.0956 (incoherent); defensible label
 precision **0.049 eV**. T5 clean-label -> WITHDRAWN by A-008 (constant predictor reproduces it).
 
-### A-006b — T3 RESOLVED: the enrichment files are consistent; the manuscript's quotation is not
-- **Date:** 2026-09-03, same beat. **Supersedes A-006 T3** (which called the four values "mutually
-  inconsistent" and the base rate irreproducible). That reading was wrong: it used a `< 0.1` threshold
-  where every deposited file uses `<= 0.1`. Eleven molecules sit exactly at 0.10 eV.
-- **Source:** recomputation on the same scaffold folds, seed 0 (see checkpoint L1 entry).
-- **Result — every deposited value reproduces exactly under its own stated convention:**
+### A-006b — enrichment reconciliation (archived during verification B)
+Full entry: `analysis-ledger-archive/ledger-before-verification-B.md` (search target).
+Threshold is <=0.1 eV, base rate 0.4935. Morgan top-10/top-50 molecules: precision
+0.600/0.680, enrichment 1.22/1.38. Morgan/NTO top-20%: 1.37/1.59.
+Interpretation: counts and fractions are different operating points; do not relabel them.
+Claim C13; no evidence defect under the original conventions.
 
-| file | ranking model | cut convention | status |
-|---|---|---|---|
-| `data/enrichment_curve.json` | Morgan | top-**fraction** | reproduces row for row |
-| `data/multi_criteria_triage.json` (`single_criterion_curve`) | **NTO** | top-fraction | reproduces (0.652 / 1.32 at top-10%) |
-| `data/triage_metrics.json` | Morgan | top-**N molecules** (10/20/30/50) | all four points reproduce; ρ 0.306 matches |
+### A-006c — library provenance (archived during verification B)
+Full entry: `analysis-ledger-archive/ledger-before-verification-B.md` (search target).
+PubChem substructure filtering, not fragment enumeration; 22194/22194 and 100/100
+pass the code's actual donor/acceptor SMARTS. Top-100: 97 halogen, 53 stereocentre.
+Interpretation: reviewer used a narrower printed list; library definition passes but
+chemical breadth and composition must remain disclosed. Claim C14.
 
-  Base rate `y <= 0.1` = **0.4935** = the deposited 0.494.
-
-  Morgan by fraction: top-1% 1.01 · top-2% 1.22 · top-5% 1.35 · top-10% 1.15 · top-20% 1.37 · top-30% 1.32 · top-50% 1.24.
-  Morgan by molecule count: top-10 **0.600 / 1.22** · top-20 0.600 / 1.22 · top-30 0.633 / 1.28 · top-50 **0.680 / 1.38**.
-  NTO by fraction: top-2% 1.62 · top-10% 1.32 · **top-20% 1.59** · top-30% 1.53.
-- **Interpretation.** There is no data defect. The defect is in the manuscript and cover letter, which
-  state "precision 0.60 at the top \qty{10}{\percent}, 0.68 at the top \qty{20}{\percent}": 0.600 is the
-  top-**10 molecules** figure and 0.680 is the top-**50 molecules** figure, from `triage_metrics.json`,
-  and neither is a percentage. Two conventions were mixed and both were relabelled as percentiles.
-  Quote one convention and name it. The curve is genuinely non-monotone by fraction (1.35 at top-5%
-  dipping to 1.15 at top-10%), so any single "1.2–1.4×" summary must say at which cut it holds.
-  Separately, **NTO enriches better than Morgan** (1.59 vs 1.37 at top-20%), which is the triage-side
-  counterpart of A-006 T2 and points the same way: the excited-state features help ranking, not MAE.
-- **Caveats.** (i) Enrichment is computed on held-out *labelled* molecules only; it says nothing about
-  the enumerated library. (ii) The top-1% and top-2% cuts are 2 and 5 molecules — not quotable.
-- **Claims:** C13 changes from BLOCKER to VERIFIED, with the operating point named.
-
-### A-006c — Provenance of the 22,194-structure library; review finding A2 partly REFUTED
-- **Date:** 2026-09-04. **Trigger:** L3 review pass 3 finding A2, "the enumerated donor--acceptor
-  library is not a donor--acceptor library", which recommended deleting the whole section.
-- **Source:** `REQ1-implementation/data/expanded_library_final.csv` (`source` column),
-  `REQ1-implementation/scripts/02_filter_pubchem_tadf.py` (SMARTS lists),
-  `REQ1-implementation/scripts/03_create_expanded_library.py`; RDKit substructure scan.
-- **Result.**
-  All \num{22194} rows carry `source = PubChem_filtered`; the file is produced by a PubChem
-  CID--SMILES substructure screen, **not** by combinatorial enumeration of fragment pairs.
-  A donor/acceptor script (`02_enumerate_da_fragments.py`) exists but its output is not in this file.
-  Against the script's ACTUAL SMARTS lists (7 donor, 8 acceptor patterns):
-  **22194/22194 (100%) of the library, and 100/100 of the top-ranked subset, contain both a donor and
-  an acceptor motif.** The filter does exactly what its own code claims.
-  Top-100 motif counts — donors: dimethylaniline 85, acridine 13, carbazole 2, diphenylamine 2;
-  acceptors: pyridine 59, cyano 25, pyrimidine 12, triazine 3, quinoxaline 2, naphthoquinone 2.
-  Composition: 97/100 carry a halogen, 53/100 a stereocentre; enantiomer pairs appear as separate
-  entries with identical predicted gaps.
-- **Interpretation.**
-  Review finding A2 is **refuted in its headline** and **upheld in its particulars**. It tested the
-  narrow fragment list printed in Methods (carbazole/phenoxazine/acridine; triazine/benzonitrile/
-  sulfone) rather than the broader list in the code, and so measured 4--5/100 where the correct
-  figure is 100/100. The library IS a donor--acceptor set by its own definition. Deleting the
-  section, as A2 recommended, would have removed sound material on a measurement error.
-  What is genuinely wrong is the Methods description, on three counts: (i) "enumerated ...
-  combinations" describes construction that did not occur — it is a substructure filter over an
-  existing database; (ii) the stated fragment list is wrong and incomplete, and names **sulfone**,
-  which is not among the patterns used at all; (iii) the composition was undisclosed, and it matters,
-  because the matches lean on weak motifs (dimethylaniline, pyridine) and the set inherits PubChem's
-  halogen/stereocentre profile rather than that of a designed emitter series.
-- **Caveats.** (i) The upstream `pubchem_tadf_filtered.csv` and the raw PubChem dump are not in the
-  deposit; provenance is reconstructed from the scripts and the `source` column, not re-run.
-  (ii) 100% donor+acceptor coverage is a statement about SMARTS matching, not about whether these are
-  plausible TADF emitters — a bare cyano group counts as an acceptor.
-- **Claims:** new **C14** (library is a PubChem substructure filter, 100% donor+acceptor by the code's
-  own patterns, weak-motif dominated). Methods/Results/SI corrected 2026-09-04 to match.
-
-### A-007 — Leakage demonstrated cross-validated (H-12); estimator selection nested (H-3)
-- **Date:** 2026-09-04. **Trigger:** L3 review pass 1 findings H-12 and H-3, neither of which any
-  existing ledger entry could settle. H-12 flagged that the paper's leakage diagnosis — contribution
-  (i) — cited "correlation 1.000, zero MAE", "in-sample $R^2 = 0.87$" and "sub-0.05 eV" with **no
-  source in `data/` and no ledger entry**, and that an *in-sample* score cannot demonstrate leakage.
-- **Source:** `code/a007_leakage_and_nested_cv.py` → `data/a007_leakage_nested_cv.json`.
-  Same `_dataset` loader and the same scaffold GroupKFold(5) as A-001/A-005/A-006. seed 0.
-
-**H-12 — leakage, cross-validated.** Target = the sTDA computed gap $E_{S_1}-E_{T_1}$, i.e. the
-quantity a leaked study regresses on. Features = the 35 NTO spatial descriptors, with and without
-the $S_1$/$T_1$ energy scalars. $n = 231$.
-
-| learner | with energies: MAE / R² | energies excluded: MAE / R² |
-|---|---|---|
-| LinearRegression | **0.000000 / 1.000000** | 0.103875 / 0.361 |
-| Ridge | 0.017658 / 0.981 | 0.101576 / 0.382 |
-| RandomForest | 0.080893 / 0.587 | 0.089050 / 0.522 |
-| SVR | 0.094789 / 0.411 | 0.109907 / 0.263 |
-
-**H-3 — estimator selection.** Flat protocol (all five learners scored on the identical outer folds,
-best reported): RandomForest 0.09563, GradientBoosting 0.09777, SVR 0.11198, Ridge 0.11361,
-MLP 0.16056. Nested CV (learner chosen inside each training fold, scored on the untouched outer
-fold): **MAE 0.09563 eV**, RandomForest selected in **5/5** outer folds.
-**Selection optimism = 0.00000 eV.**
-
-- **Interpretation.**
-  (H-12) The leakage claim is now demonstrated properly and is *stronger* than the unsourced figures
-  it replaces: under cross-validation a linear model supplied with the two constituent energies
-  recovers the target exactly ($R^2 = 1.000$, MAE $= 0$), while the same features without the
-  energies reach $R^2 = 0.36$. The retired "in-sample $R^2 = 0.87$" was both unsourced and the wrong
-  statistic — an in-sample score shows overfitting capacity, not leakage, and 0.87 undercut the very
-  argument it was offered to support. A methodological point worth keeping: leakage severity depends
-  on whether the learner can *express* the identity. A random forest is axis-aligned and cannot
-  represent a difference of two continuous inputs, so it understates leakage (0.587); this is why a
-  tree-based study can carry the defect without the cross-validated score looking suspicious.
-  (H-3) The selection concern is valid in principle and empirically nil here: the random forest wins
-  in every outer fold, so choosing it on the reported folds costs nothing measurable. The SI sentence
-  claiming "no test-set selection bias" was nonetheless the wrong argument (it appealed to untuned
-  hyperparameters, not to nested validation) and should cite this entry instead.
-- **Caveats.** (i) The exact zero for LinearRegression is arithmetic recovery to floating-point
-  precision, not a statistical result; report it as such. (ii) Learner defaults are untuned, so the
-  flat-protocol ranking is a comparison of default configurations, not of model families at their
-  best. (iii) Nested CV inherits the singleton-scaffold geometry of A-002 P3, so the outer folds are
-  no harder than a random split.
-- **Claims:** new **C15** (leakage recovers the target exactly under CV with a linear learner,
-  $R^2 = 1.000$; energy-free 0.36), **C16** (nested CV reproduces the reported MAE exactly; selection
-  optimism 0.000 eV). Supersedes the unsourced "in-sample $R^2 = 0.87$", which must not reappear.
+### A-007 — leakage and nested CV (archived during verification B)
+Full entry: `analysis-ledger-archive/ledger-before-verification-B.md` (search target).
+Source: code/a007_leakage_and_nested_cv.py, data/a007_leakage_nested_cv.json.
+Interpretation: computed-energy difference leakage depends on learner capacity to subtract;
+nested model selection must be distinguished from flat comparisons. Claims C15/C16.
+Numbers and methods remain in the complete archived entry; no claim superseded here.
 
 ### A-008 — Two control checks that INVALIDATE A-006 T5 and correct the 0.072 eV label figure
 - **Date:** 2026-09-04. **Trigger:** L3 beat-2 review (`review-10-critical-thinking-beat2.md`, CRITICAL 1
@@ -236,7 +143,7 @@ fold): **MAE 0.09563 eV**, RandomForest selected in **5/5** outer folds.
   the computed estimators and had it replaced by 0.0905 in 14 places and in `qa_score.py`.
   That was my error, and it was already answered by A-003 before I made it.
 - **Source:** direct recomputation over the 102 multi-report molecules, and the reconciliation
-  table in the archived A-003 (`outputs/analysis/archive/ledger-A001-A003-2026-09.md`).
+  table in the archived A-003 (`analysis-ledger-archive/ledger-A001-A003-2026-09.md`).
 - **Result.** Both figures are correct estimators of the same quantity under different weightings:
 
 | estimator | value |
@@ -323,11 +230,30 @@ fold): **MAE 0.09563 eV**, RandomForest selected in **5/5** outer folds.
   Converts Referee 3 point 2 from "cannot be tested" to "tested by proxy, null, with the reason the
   strict test is impossible stated".
 
-### A-012 — internal verification-B diagnostic (not deposited)
-A-012 was an internal cross-check of the A-011 comparator and the ceiling
-arithmetic during verification round B. It produced no manuscript result and its
-independent-interpretation step was blocked; it is omitted here by design. The
-diagnostic is retained in the working repository.
+### A-012 — Verification B diagnostics: A-011 control and ceiling arithmetic
+- Status: diagnostic verification only; no replacement manuscript result authorised.
+- Question: is A-011's constant comparator held out, and is the stored RSS arithmetic valid?
+- Source/method: outputs/critical-reviews/verification-B-evidence/parent_check.py;
+  code/_dataset.py; original experimental table; GroupKFold(5), same scaffold groups.
+  Output: outputs/critical-reviews/verification-B-evidence/parent-check.json.
+- Result: A-011 group counts reproduce (218 single-source, 13 multi-source).
+  In-sample group-median MAEs reproduce as 0.1004288991 and 0.0608076923 eV.
+  Fitting each group median on training-fold members only gives held-out MAEs
+  0.1006444954 and 0.0692692308 eV respectively. Deterministic diagnostics; no CI estimated.
+  RSS of stored 0.072, 0.195, 0.2964 eV components is 0.3620248058 eV, not stored
+  0.1282 eV; stored forest MAE is 0.0956 eV.
+- Interpretation: the published comparator is the empirical target-dispersion minimum,
+  not a held-out predictor. It is usable as a descriptive statistic if named as such,
+  but its comparison with out-of-fold forest errors is not a matched predictive benchmark.
+  This matters most in the small multi-source group. These calculations do not establish
+  a new model advantage or confidence interval, nor an effect of measurement conditions.
+  The RSS field is arithmetically inconsistent; even the recomputed sum would not be a
+  justified experimental noise floor because its components mix different quantities.
+- Caveats: no model retraining, no bootstrap rerun, no group-correlation correction;
+  source-paper membership does not identify a laboratory or controlled conditions.
+- Claim links: flags C18/A-011 and the inherited ceiling decomposition; not a prose repair.
+- Independent interpretation check: BLOCKED (Hermes credit exhaustion; Codex token failure).
+  No independent report exists; see verification-B-summary.md. A-012 remains diagnostic only.
 
 ### A-013 — Pretrained molecular-transformer baseline (DA-5, L3 pass 2)
 - **Date:** 2026-09-10. **Trigger:** L3 novelty death-angle DA-5
@@ -368,54 +294,95 @@ diagnostic is retained in the working repository.
   Limitations bullet (6). Manuscript number: 0.109-0.113 eV for the pretrained encoder.
 
 ### A-014 — Bootstrap CI on triage/enrichment precision (audit item 10.3, AUDIT_REPORT.md 2026-09-12)
-- **Source:** `code/enrichment_ci.py` -> `data/enrichment_ci.json`. Reuses
-  `enrichment_curve.py`'s Morgan-FP RF, scaffold-CV (GroupKFold 5) out-of-fold
-  predictions on the 231-molecule benchmark, threshold <=0.10 eV.
-- **Method.** Nonparametric bootstrap, 5000 resamples of the 231 molecules with
-  replacement; within each resample the ranking is re-derived from the fixed
-  out-of-fold predicted gap and precision/enrichment recomputed at k=10, 20, 50 and
-  the top-20%-of-benchmark cut (k=46). The RF itself is not refit per resample (same
-  convention as other paired CIs in this repo, e.g. A-002/A-006).
-- **Numbers.**
-  | cutoff | k | precision | enrichment | 95% CI (enrichment) | excludes 1.0? |
-  |---|---|---|---|---|---|
-  | top-10 | 10 | 0.600 | 1.22x | [0.63, 1.89] | no |
-  | top-20 | 20 | 0.600 | 1.22x | [0.80, 1.70] | no |
-  | top-20% | 46 | 0.674 | 1.37x | [1.08, 1.61] | yes |
-  | top-50 | 50 | 0.680 | 1.38x | [1.10, 1.60] | yes |
-  Point estimates reproduce the published 0.600/0.680/1.22/1.38 (A-006b) exactly.
-- **Interpretation.** The enrichment claim in the main text (1.2-1.4x) is real only
-  at the broader cutoffs (top-50, top-20%): the CI excludes no-enrichment (factor
-  1.0). At the smaller, more actionable cutoffs a laboratory would actually
-  shortlist from (top-10, top-20), the 95% CI includes 1.0 -- the enrichment is not
-  statistically distinguishable from chance at n=231. This is the exact concern
-  AUDIT_REPORT.md \S10.3 raised (small-k precision estimates reported without a CI).
-- **Caveats.** (i) Bootstrap resamples molecules, not folds; it treats the
-  out-of-fold predictions as fixed and does not propagate model-refit variance --
-  consistent with other CI conventions in this repo, but a lower bound on total
-  uncertainty. (ii) Percentile bootstrap (not BCa); with n=231 and rare-event counts
-  at k=10 this can be somewhat conservative/liberal at the tails, not expected to
-  flip the qualitative significant/non-significant split reported here.
-- **Claims:** adds a CI to the enrichment numbers stated in
-  `sections/results_rsc_advances.tex` (\S3.4, "Modest triage utility" and
-  "Quantifying triage utility" paragraphs) and the parallel Introduction
-  Contributions paragraph. No headline number changed; qualification added.
+Full entry: `analysis-ledger-archive/ledger-A014-2026-09.md` (grep target). Summary: triage enrichment bootstrap CI — top-10/top-20 not distinguishable from 1.0×; top-50/top-20% exclude 1.0×. Triage now in SI.
 
-### A-015 — Maximum achievable R² from label noise (Crusius et al. framework)
-- **Date:** 2026-09-13. **Trigger:** AUDIT_REPORT.md §17 (item 13 in audit pass): adding the Crusius citation without running the NoiseEstimator calculation leaves the quantitative argument incomplete.
-- **Method.** `R²_max = 1 − σ²_noise / σ²_y` (the standard noise-ceiling result applied by Crusius et al., Faraday Discuss. 256, 304-321, 2025, §3). Two noise floors are evaluated: (i) the **regression-relevant** floor — RMS SEM of the per-molecule median label (0.049 eV, from A-003/A-008b) — which is the aleatoric limit for predicting the target actually regressed on; (ii) the **corpus-heterogeneity** floor — RMS of a single report about its molecule's median (0.0905 eV, from A-003) — which is not the regression floor but contextualises how far any single measurement can be from the truth.  σ_y derived from the out-of-fold predictions in `data/final_model_scaffold_predictions.csv` (n=231, σ_y = 0.167 eV). Bootstrap CI: 5000 resamples of molecules, fixed OOF predictions (same convention as A-002/A-006/A-014).
-- **Source:** `data/a015_noise_floor_r2_bound.json`.
+### A-015 — Max achievable R² (Crusius) — SUPERSEDED by A-018
+Full entry: `analysis-ledger-archive/ledger-A015-2026-09.md` (grep target). Values 0.71–0.91 no longer used; see A-018 (0.80–0.86).
+### A-016 — Paper-unit uncertainty and repeated source-paper partitions for ranking
+- **Date:** 2026-10-06. **Source:** `code/jmgm_doi_group_ranking_check.py` -> `data/a016_jmgm_doi_group_ranking.json`. Reconstructs A-006's primary-DOI assignments, models, and five GroupKFold out-of-fold predictions exactly; assertions reproduce $n=231$, 173 DOI groups, and the original Morgan/NTO rank correlations to 1e-10. `data/a016_jmgm_doi_group_input.csv` holds the 231 row-level modelling inputs, 35 NTO features, SMILES and primary DOI. The standalone `next_submission_manuscript/jmgm/supplementary_data/` copy reruns with `--input-csv` and produced an output JSON byte-identical to the original; its CSV reader needs `float_precision="round_trip"` because the default parser introduced 1e-16 differences in 62 labels and shifted the fitted rank correlation. The three original evidence files are staged in Git but not committed or uploaded.
+- **Paper-unit interval:** 5000 paired percentile bootstrap draws of **173 primary DOI groups**, resampling each selected paper's molecules together and recomputing both Spearman correlations from the fixed out-of-fold predictions. Seed 54321. Morgan $\rho=0.154717$, NTO $\rho=0.345913$, NTO−Morgan $\Delta\rho=+0.191196$; DOI-cluster 95% percentile interval **[+0.014317,+0.366034]**. The A-006 molecule-level interval was [+0.037444,+0.344206]. The cluster interval barely excludes zero and does not propagate model refitting or alternative fold allocation.
+- **Partition stability probe:** 20 GroupShuffleSplit train/test divisions (seed 17; 20% of paper groups held out each time), refitting each representation on each training division. NTO $\rho$ exceeds Morgan in **19/20** divisions; median $\Delta\rho=+0.13355$, range [−0.01418,+0.40378]. Repeated tests overlap; 19/20 is a descriptive stability count, **not** a probability, independent confirmation, calibrated interval, external source transfer, or evidence about laboratories.
+- **Robustness bound:** leaving out each primary DOI group from the original fixed out-of-fold predictions one at a time gives $\Delta\rho$ range [+0.15347,+0.21651]. This is a sensitivity check, not model retraining.
+- **Interpretation:** evidence for a corpus-conditional accuracy/ranking disagreement survives paper-cluster resampling and is mostly positive under repeated source-paper partitions, but it remains a retrospective analysis of the same 231 emitters. No external or protocol-controlled data and no prospective top-k ranking validation; do not make a universal or laboratory-transfer claim. The paper-unit interval does not turn the finding into established molecular-design utility.
 
-| quantity | value | 95% CI |
+### A-018 — Noise ceiling with per-molecule label noise (supersedes A-015's 0.91 upper value)
+- **Date:** 2026-10-06. **Trigger:** L3 beat 1, pass-3 H4: A-015 applied the RMS SEM of the median (0.049 eV, computed on the 102 multi-report molecules only) to all 231 molecules; A-015 also has no source script in the repo or the 2026-09-10 backup.
+- **Method.** `code/a018_noise_ceiling_heterogeneous.py`. noise_var_i = SD_i²/n_i for 102 multi-report molecules (reproduces 0.049 eV RMS, asserted); σ_report² for 129 single-report molecules. R²_max = 1 − mean(noise_var)/var(y). Molecule bootstrap 5000, seed 54321. Pre-registered in docstring before running. **Source:** `data/a018_noise_ceiling_heterogeneous.json`, log `outputs/extract/a018_run.txt`.
+
+| σ_report for single-report molecules | RMS noise | R²_max | 95% CI | % captured (R²=0.257) |
+|---|---|---|---|---|
+| 0.0856 eV pooled within-molecule SD (**primary**) | 0.072 eV | **0.81** | [0.68, 0.88] | 31.5% |
+| 0.0905 eV single report about median | 0.075 eV | 0.80 | [0.65, 0.87] | 32.2% |
+| 0.072 eV molecule-weighted scatter | 0.063 eV | 0.86 | [0.75, 0.91] | 29.9% |
+
+- **Interpretation.** Treating single-report labels as noisy as one report lowers the ceiling from A-015's 0.91 to 0.80–0.86. A-015's lower value (0.71) applied single-report noise to every molecule, including the 102 with replicates, so it is too pessimistic; 0.91 applied replicate precision to molecules without replicates, so it is too optimistic. The bracket the manuscript should carry is **R²_max ≈ 0.80–0.86** (primary 0.81, CI 0.68–0.88). The qualitative conclusion stands: the model captures about 30–32% of the ceiling, so label noise is not the dominant constraint.
+- **Caveats.** (i) Additive, structure-independent noise assumed. (ii) Report independence assumed; 57.8% of multi-report molecules have zero spread (possible re-citation), which would make their SEM too small and R²_max too high. (iii) SD/√n is the SEM of a mean; the median's SEM is larger, so the multi-report term is a lower bound. (iv) σ_y here 0.1666 eV from labels (A-015 used 0.1670 from the predictions file); the difference does not move any reported digit. (v) CI resamples molecules, not the noise estimate itself.
+- **Consequence for manuscript.** Replace "R²_max ≈ 0.71–0.91" with "≈ 0.80–0.86" in abstract, introduction, results, and conclusions; add an SI paragraph stating assumptions (i)–(v). "27–35%" becomes "about 30–32%".
+- **Claims:** C-019 updated (A-015 → A-018).
+
+### A-017 — Holdout-unit controls for the NTO−Morgan rank contrast
+- **Date:** 2026-10-06. **Trigger:** L3 beat 1 pass-2 H1 (Δρ 0.191 from one fixed DOI split) and pass-1 H1/H2 (split vs criterion confounded; no matched control for 19/20).
+- **Method.** `code/a017_split_unit_controls.py` (pre-registration + decision rule in docstring, written before running). Input `data/a016_jmgm_doi_group_input.csv` (231 molecules; 173 DOI, 212 scaffold groups). Self-check reproduces A-006 T1/T2 ρ to 1e-10 and A-016's 19/20. Q1: 50 random group→fold assignments (5 folds) per holdout unit {DOI, scaffold, molecule}, RF(400) OOF for Morgan and NTO. Q2: A-016 repeated holdout (GroupShuffleSplit 20, test 0.2, seed 17) per unit. Q3: scaffold-cluster bootstrap (5000) on fixed A-006 scaffold folds. **Source:** `data/a017_split_unit_controls.json`; log `outputs/extract/a017_run.txt`.
+
+| holdout unit | Δρ median (50 seeds) | 2.5–97.5% of seeds | Δρ>0 | median ρ Morgan | median ρ NTO | ΔMAE Morgan−NTO median [2.5,97.5] | Q2 NTO higher /20 |
+|---|---|---|---|---|---|---|---|
+| source paper (DOI) | **0.160** | [0.073, 0.246] | 50/50 | 0.172 | 0.337 | −0.0004 [−0.0061, 0.0068] eV | 19 |
+| scaffold | 0.073 | [0.007, 0.144] | 49/50 | 0.269 | 0.351 | −0.0045 [−0.0091, 0.0010] eV | 11 |
+| molecule (random) | 0.055 | [−0.033, 0.126] | 45/50 | 0.305 | 0.352 | −0.0081 [−0.0157, −0.0002] eV | 13 |
+
+  Q3 fixed scaffold split: Δρ 0.051, scaffold-cluster 95% CI [−0.099, 0.202], 25.7% of draws ≤ 0.
+- **Interpretation.** Pre-registered rule met (DOI median exceeds scaffold by 0.087 and molecule by 0.105; DOI 50/50 positive vs 49/50 and 45/50): **the holdout unit, not the error-vs-ranking criterion, drives the size of the contrast.** The mechanism is asymmetric: NTO rank correlation is nearly invariant to the holdout unit (median ρ 0.337–0.352), while Morgan's falls from 0.305 (random) to 0.269 (scaffold) to 0.172 (source paper). Fingerprints carry rank information that partly does not survive holding out whole papers (consistent with series- or paper-specific structure–label association; cause not tested); the semi-empirical descriptors' rank information does. A-016's 0.191 lies in the upper part of the 50-seed DOI distribution; the fold-assignment-robust value is ≈0.16 (seed range 0.07–0.25). Under scaffold holdout the contrast is small (≈0.07) and, on the fixed split, not resolved (CI spans 0). For error, Morgan is slightly better under random holdout (−0.008 eV, upper bound −0.0002) and indistinguishable under scaffold or paper holdout.
+- **Caveats.** Seed percentiles describe fold-assignment variability, not a confidence interval; all units use the same 231-molecule corpus; 128/173 DOI groups are single molecules, so paper holdout differs from random mainly through the 45 multi-molecule papers; no lab-transfer test; "series-specific" reading is a hypothesis.
+- **Consequence for manuscript.** Central question and conclusions should name the holdout unit (and the Morgan-degradation / NTO-invariance asymmetry) as the finding; report Δρ ≈ 0.16 (seed range) alongside or instead of 0.191; add matched 11/20 and 13/20 next to 19/20; "Accuracy and ranking answer different questions" (conclusions:15) must be rewritten. Re-scoping decision → author + `bmad-correct-course`.
+- **Derived (L2-B, 2026-10-06):** Morgan median ρ falls by 43.6% from random to source-paper holdout ((0.305 − 0.172)/0.305); used as "44%" in highlight 2.
+- **Claims:** new C-020 (holdout-unit dependence; NTO invariance vs Morgan degradation).
+
+### A-019 — Series/publication shortcut test (Morgan vs NTO)
+- **Date:** 2026-10-06. **Trigger:** A-017 asymmetry (Morgan ρ falls under paper holdout, NTO does not); author asked to test the shortcut hypothesis.
+- **Method.** `code/a019_series_shortcut_test.py` (hypothesis + decision rule in docstring, fixed before running). Same 50 fold assignments as A-017 for molecule (random) and DOI holdout. T1: ρ on 103 molecules from multi-molecule papers vs 128 from single-molecule papers. T2 "sibling pull": Spearman between OOF prediction and leave-self-out mean label of same-paper siblings (103 molecules). **Source:** `data/a019_series_shortcut_test.json`; log `outputs/extract/a019_run.txt`.
+
+| median over 50 seeds | Morgan random | Morgan paper | NTO random | NTO paper |
+|---|---|---|---|---|
+| ρ, multi-paper molecules (103) | 0.538 | **0.264** | 0.483 | 0.446 |
+| ρ, single-paper molecules (128) | **0.097** | 0.099 | 0.243 | 0.245 |
+| sibling pull (103) | 0.676 | 0.255 | 0.471 | 0.418 |
+
+  Random-minus-paper medians [2.5–97.5% of seeds]: Morgan ρ_multi 0.269 [0.174, 0.413], ρ_single −0.003 [−0.121, 0.139], sibling pull 0.415 [0.276, 0.606], MAE_multi −0.025 [−0.034, −0.014] eV; NTO ρ_multi 0.040 [−0.026, 0.111], ρ_single −0.015, sibling pull 0.048 [−0.014, 0.138], MAE_multi −0.007 [−0.013, 0.001] eV.
+- **Interpretation.** Verdict **SUPPORTED** (criteria a and b both met). Morgan's rank information sits almost entirely on molecules that have same-paper siblings: ρ 0.54 when siblings are in training, 0.26 when the whole paper is held out, and ≈0.10 on single-paper molecules under either holdout. Its predictions track the siblings' mean label (pull 0.68) and lose that tracking under paper holdout (0.26). Its MAE advantage on multi-paper molecules (0.025 eV) disappears under paper holdout. NTO shows none of these shifts (ρ_multi 0.48→0.45; single-paper ρ 0.24 under both) and ranks single-paper molecules better than Morgan in every setting. The fingerprint model's apparent ranking skill under random or scaffold holdout is largely a within-publication (series/lab) association; the semi-empirical NTO descriptors carry rank information that does not depend on having seen the publication.
+- **Caveats.** Association, not demonstrated cause: siblings share both close structure and measurement protocol, and this test cannot separate structural near-duplication from lab/protocol bias. Same corpus, retrospective. Subset ρ on 103/128 molecules is noisier than whole-set ρ. Seed ranges are fold-assignment variability, not CIs.
+- **Consequence for manuscript.** Supports the F3-family central question (NTO retains rank information that fingerprints lose on unseen publications) with a tested mechanism. Report single-paper-molecule ρ (Morgan ≈0.10 vs NTO ≈0.24) as the cleanest contrast. Warn modellers that random/scaffold splits on literature-mined TADF data overstate fingerprint ranking skill.
+- **Claims:** new C-021 (publication-shortcut association for Morgan; NTO invariance).
+
+### A-020 — RDKit control, within-paper ranking, single-paper contrast interval
+- **Date:** 2026-10-06. **Trigger:** L3 beat 2: pass-2 H-B (no non-quantum dense-descriptor control), pass-1 H-new-1 (ranking within vs across held-out papers), H-new-2 (single-paper contrast without interval).
+- **Method.** `code/a020_controls.py` (three pre-registered rules in docstring, fixed before running). Same 50 fold assignments as A-017/A-019 (molecule, DOI holdout); Morgan, NTO, 217 RDKit 2D descriptors. Within-paper ρ = Spearman of paper-centred label vs paper-centred prediction (103 multi-paper molecules). Single-paper interval: OOF predictions averaged over the 50 DOI-holdout seeds, paired molecule bootstrap 5000 (seed 54321). **Source:** `data/a020_controls.json`; log `outputs/extract/a020_run.txt`.
+
+| median (50 seeds) | ρ all, random | ρ all, paper | ρ multi, random → paper | ρ single, paper | within-paper ρ, random | within-paper ρ, paper |
+|---|---|---|---|---|---|---|
+| Morgan | 0.305 | 0.172 | 0.538 → 0.264 | 0.099 | −0.354 | −0.063 |
+| RDKit 2D | 0.303 | 0.209 | 0.518 → 0.350 | 0.102 | −0.223 | −0.027 |
+| NTO | 0.352 | 0.337 | 0.483 → 0.446 | 0.245 | −0.041 | 0.029 |
+
+  RDKit multi-paper drop 0.176 [0.050, 0.281]. Single-paper contrast (seed-averaged predictions): ρ NTO 0.266, Morgan 0.108, RDKit 0.114; Δ NTO−Morgan 0.158, 95% CI [−0.052, 0.374], 8.0% of draws ≤ 0.
+- **Interpretation.** Q1 verdict **FINGERPRINT-LIKE**: the dense non-quantum RDKit set loses rank information under paper holdout like Morgan does (drop 0.18, single-paper ρ 0.10); among the three tested sets, holdout-unit invariance is specific to the excited-state NTO descriptors, so dimensionality or smoothness alone does not explain it. Q2: no representation ranks molecules *within* a held-out paper (within-paper ρ −0.06 to 0.03); the NTO advantage is ranking *across* unseen publications/series. Under random holdout, Morgan's within-paper ρ is −0.35 — its predictions pull towards the sibling mean, which inverts the order inside a paper. Q3: the single-paper contrast (0.27 vs 0.11) is not resolved (CI spans 0); it must leave the abstract and appear in Results only with its interval.
+- **Caveats.** Seed ranges = fold-assignment variability; CI in Q3 conditional on seed-averaged fixed predictions; same corpus; within-paper ρ pools 45 small papers (2–4 molecules), low power.
+- **Consequence for manuscript.** Wording: "ranks molecules from held-out papers" → "orders emitters across publications absent from training; neither representation orders molecules within a held-out paper". Add RDKit control sentence + table row (strengthens NTO specificity). Remove 0.10 vs 0.24 from abstract; report Q3 with CI in Results.
+- **Claims:** C-021 refined (across-publication, not within); new C-022 (NTO invariance not shared by RDKit 2D).
+
+### A-021 — Provenance entry for pre-existing JSON results cited in the JMGM text (L4 number sweep)
+- **Date:** 2026-10-06. **Trigger:** L4 audit number sweep (`outputs/l4/number_sweep.csv`, `orphan_triage.csv`): 12 manuscript numbers traced only to `data/*.json`, no ledger ID. No recomputation; values read from the files below.
+
+| manuscript value | quantity | source (key) |
 |---|---|---|
-| σ_y (target SD) | 0.167 eV | — |
-| R²_observed | 0.257 | [0.008, 0.450] |
-| R²_max (SEM floor, 0.049 eV) | **0.914** | [0.847, 0.944] |
-| R²_max (single-report floor, 0.0905 eV) | **0.706** | [0.477, 0.808] |
-| % ceiling captured (SEM) | 28.1% | — |
-| % ceiling captured (single-report) | 36.4% | — |
+| R² 95% CI RDKit −0.11 to 0.51; Morgan −0.19 to 0.53 | scaffold-CV R² bootstrap CI | `data/final_model_metrics.json` feature_set_comparison.{RDKit,Morgan}.R2_CI [−0.107, 0.513], [−0.192, 0.526] |
+| 99.5% | S1_S_he rank-1 SHAP stability, reliable subset, 200 bootstrap refits | `data/conditional_shap.json` rank1_stability_reliable_n200 0.995 (full corpus 0.795) |
+| 152 | reliable-prediction subset size | `data/conditional_shap.json` n_reliable |
+| 19.6% | fraction of molecules whose label noise exceeds model MAE | `data/ceiling_decomposition.json` A_frac_exceeding_model_mae 0.196 |
+| 0.70 | sTDA vs ORCA adiabatic Pearson r² | `data/ceiling_decomposition.json` B_pearson_r2 0.704 |
+| 0.169 eV | MLP (100,50) MAE, capacity check | `data/ceiling_tests.json` MLP (100,50).MAE |
+| 70 / 38 | coarsest Butina clustering: groups / largest cluster | `data/cluster_cv.json` n_clusters 70, largest_cluster 38 |
+| shuffle-null mean 0.121 eV | 1000 target shuffles, scaffold CV | `data/scaffold_split_analysis.json` null_mae_mean 0.121 (manuscript results:39 corrected from 0.120 at L4) |
 
-- **Interpretation.** The result is more nuanced than the noise-floor narrative in the current manuscript implies. The SEM floor (0.049 eV) gives R²_max = 0.91 — the target is in principle highly predictable if label precision could be improved. The observed R² = 0.26 is only 28% of that ceiling. This means label noise is **not** the dominant constraint: the model sits far below the noise-floor-limited ceiling, and something else — structural features unable to fully encode the gap, the modest n=231, or deeper physics — drives the gap. Using the single-report scatter (0.0905 eV) as the noise floor — which is the quantity Crusius et al. would use if treating each report as an independent measurement — gives R²_max = 0.71, and the model captures 36%. Both readings confirm the observed R² = 0.26 is consistent with label noise playing a role, but not that label noise alone explains it. The honest manuscript sentence is therefore: label noise sets a ceiling at R²≈0.71–0.91 depending on which floor applies; the model at R²=0.26 is well below it; progress requires both better data **and** better features/models, with the data argument justified by the 0.049 eV precision floor.
-- **Caveats.** (i) The formula assumes noise is additive, independent of x, and homoscedastic — none of which is fully satisfied (the noise is heteroscedastic: 57.8% of molecules have zero spread). (ii) σ_y is measured on 231 molecules, not on the underlying distribution; the bootstrap CI on R²_max is wide accordingly. (iii) This calculation was not done with the original Crusius `NoiseEstimator` tool (not available on PyPI); the formula is implemented from first principles.
-- **Consequence for manuscript.** The existing noise-floor sentence in §3.3 ("Label imprecision is therefore a real term in the error budget but does not by itself account for it, and we do not claim the forest sits at a noise floor") is **correct** and is strengthened by this calculation. Add one sentence after that sentence quantifying the bound. Also add a sentence to the `\paragraph{Structure alone predicts...}` in the introduction where Crusius is cited, to give the number.
-- **Claims:** new **C-019** (R²_max = 0.71–0.91 depending on noise estimator; observed R²=0.26 is 28–36% of the ceiling; model is not at the noise floor).
+- **Interpretation.** These are supporting checks already in the manuscript before the F3-b rewrite (capacity, clustering robustness, SHAP stability, ceiling decomposition); none changes a headline claim. The R² intervals including negative values support the text's statement that structure-only models are not shown to beat a constant at 95% confidence on R².
+- **Caveats.** Producer scripts were not re-run at L4; provenance is file-level. If a value is challenged, re-run the producing script listed in `outputs/deposit/manifest_repo_deposit.csv`.
+- **Claims:** supports C-001-family benchmark statements; no new claim.

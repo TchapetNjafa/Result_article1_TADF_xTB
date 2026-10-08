@@ -1,6 +1,6 @@
 # TADF Emitters: Computational Screening and Design Guidelines
 
-This repository contains the manuscripts and supporting materials for two related research articles on thermally activated delayed fluorescence (TADF) emitters, based on high-throughput computational screening of 747 experimentally known molecules.
+This repository contains the manuscripts and supporting materials for three related research articles on thermally activated delayed fluorescence (TADF) emitters, based on high-throughput computational screening of 747 experimentally known molecules.
 
 ## Overview
 
@@ -33,19 +33,19 @@ This article leverages the validated computational workflow from Article 1 to ex
 
 **Folder:** `Article2_Data-Driven Design Guidelines for TADF-Emitters from a High-Throughput Screening of 747 Molecules/`
 
-### Article 3: Experimental Inter-Report Scatter Bounds Machine-Learning Accuracy for TADF Singlet–Triplet Gaps — Structure and Semi-Empirical Features Reach the Same Limit
+### Article 3: Publication-Level Holdout Separates Fingerprint and Excited-State Descriptor Models of Measured TADF Gaps
 
-**Status:** 📝 Under submission to *RSC Advances* (September 2026)  
+**Status:** Prepared for submission to *Journal of Molecular Graphics and Modelling* (October 2026); an earlier RSC Advances version was rejected and is kept in the folder for provenance  
 **Zenodo DOI:** [10.5281/zenodo.17436069](https://doi.org/10.5281/zenodo.17436069)  
 **Authors:** Jean-Pierre Tchapet Njafa, Steve Cabrel Teguia Kouam, Patrick Sorrel Mvoto Kongo, Panebei Samafou, Serge Guy Nana Engo
 
-A scaffold-validated, deliberately honest benchmark establishing where data quality — not model capacity — sets the ceiling on predicting the experimental ΔE_ST from molecular structure. On 231 donor–acceptor molecules (212 Bemis–Murcko scaffolds), structure-only random forests (MAE 0.091 eV, Morgan) match semi-empirical NTO descriptors (MAE 0.096 eV) to within 0.017 eV on paired folds. The label precision (0.049 eV per-molecule median) is approximately half the model error. Two additional findings are corpus-specific: (i) excited-state descriptors preserve rank ordering across laboratories where fingerprints fail (Δρ = 0.19, CI 0.04–0.34); (ii) feature–target leakage in many published ML pipelines is quantified and its learner-dependence explained.
+Retrospective benchmark on 231 donor-acceptor molecules (data source: Huang & Cole 2024). Fingerprint and excited-state descriptor random forests have similar error (MAE about 0.09-0.10 eV), but under source-publication holdout the median Spearman rho is 0.34 (NTO) vs 0.17 (Morgan), a contrast of 0.16 (central 95% of 50 fold assignments 0.07-0.25). Within-paper ranking is near zero for all representations. R2_max is about 0.80-0.86 (A-018).
 
-**Manuscript sources (submission-ready, post-audit September 2026):** `Article3_TADF-Emitter-Triage-Honest-Benchmark/`
+**Current manuscript sources:** `Article3_TADF-Emitter-Triage-Honest-Benchmark/JMGM_submission/` (see the README in that folder)
 
 ## Relationship Between Articles
 
-These two articles form a cohesive research program:
+The first two articles form a cohesive research program:
 
 1. **Article 1** establishes and validates the computational methodology (xTB-based high-throughput screening)
 2. **Article 2** applies this validated methodology to extract design rules and identify promising candidates

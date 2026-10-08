@@ -43,42 +43,56 @@ of molecular architecture, geometry, and electronic structure, it identifies
 
 ---
 
-### Article 3: Experimental Inter-Report Scatter Bounds Machine-Learning Accuracy for TADF Singlet–Triplet Gaps — Structure and Semi-Empirical Features Reach the Same Limit
-**Status:** 📝 Under submission to *RSC Advances* (September 2026)
-**Prior submission:** *Digital Discovery*, RSC — declined 27 Aug 2026; the referee
-reports were addressed and the manuscript substantially revised (see below)
+### Article 3: Publication-Level Holdout Separates Fingerprint and Excited-State Descriptor Models of Measured TADF Gaps
+**Status:** Prepared for submission to *Journal of Molecular Graphics and Modelling* (October 2026)
+**Earlier version:** "Experimental Inter-Report Scatter Bounds Machine-Learning Accuracy for TADF Singlet–Triplet Gaps" was submitted to *Digital Discovery* (declined 27 Aug 2026) and re-framed for *RSC Advances*; that version is kept in the manuscript folder for provenance and is no longer the current one.
 **Authors:** Jean-Pierre Tchapet Njafa, Steve Cabrel Teguia Kouam, Patrick Sorrel
 Mvoto Kongo, Panebei Samafou, Serge Guy Nana Engo
-**Zenodo DOI:** [10.5281/zenodo.17436069](https://doi.org/10.5281/zenodo.17436069)
+**Zenodo DOI (concept DOI, all versions):** [10.5281/zenodo.17436069](https://doi.org/10.5281/zenodo.17436069)
+**Experimental data source:** Huang & Cole (2024) literature database of measured TADF properties; 231 donor–acceptor molecules matched to structures.
 
-A scaffold-validated, deliberately honest benchmark of how accurately cheap
-structure-based machine learning can predict the **experimental** singlet–triplet
-gap (ΔE_ST). On 231 donor–acceptor molecules spanning 212 Bemis–Murcko scaffolds,
-random forests built from the 2D structure alone (Morgan fingerprints, RDKit
-descriptors) predict the measured ΔE_ST with MAE ≈ 0.096 eV — matching
-physics-informed NTO descriptors that require a semi-empirical excited-state
-calculation. The two agree to within **0.017 eV** on paired folds, so the
-excited-state step buys no *accuracy*; it does, however, buy *ranking* that
-survives a change of source laboratory (Spearman ρ 0.35 vs 0.16 under a
-source-paper split, Δρ = 0.19, CI excluding zero). Accuracy is bounded by the
-label: repeat reports of the same compound scatter by 0.072 eV RMS and the median
-actually regressed on is known only to 0.049 eV. A 609-core-hour range-separated
-TD-DFT reference does not beat the structure-only model. The model is a modest
-triage filter (1.2–1.4× enrichment over random). **No ranked candidate shortlist
-is deposited:** on the 22,194-molecule filtered library the conformal intervals
-are ~7.6× the predicted gap and every one of the 100 lowest-predicted intervals
-spans a negative gap, so the procedure refuses molecule-level selection.
+Retrospective benchmark of how well structure-only and excited-state descriptors rank
+the **measured** singlet–triplet gap (ΔE_ST) when the held-out unit is changed. Random
+forests on Morgan fingerprints, RDKit descriptors and 35 NTO spatial descriptors give
+similar errors (MAE ≈ 0.09–0.10 eV; Morgan vs NTO within 0.017 eV on paired folds).
+Rank correlation differs by holdout unit: under source-publication holdout the median
+Spearman ρ is **0.34 for NTO vs 0.17 for Morgan** (50 fold assignments). The contrast
+Δρ is 0.16 (central 95% of the 50 assignments 0.07–0.25). NTO exceeds Morgan in 19/20
+repeated source-paper partitions, against 11/20 (scaffold) and 13/20 (molecule) under
+matched holdouts. RDKit descriptors fall from ρ 0.30 (random) to 0.21 (paper). Within
+a held-out paper the ranking is not recovered (within-paper ρ ≈ 0 for all three
+representations); the result concerns ranking across unseen papers. A series-shortcut
+test (A-019) ties the Morgan loss to molecules that have same-paper siblings in the
+training set; the cause (structural near-duplication vs protocol bias) is not separated.
+Label noise bounds R² at R²_max ≈ 0.80–0.86 (A-018), against an observed R² ≈ 0.26.
+The model is a modest triage filter (1.2–1.4× enrichment over random). No ranked
+candidate shortlist is deposited: on the 22,194-molecule filtered library the conformal
+intervals are ~7.6× the predicted gap. All results are retrospective on one corpus;
+no external or prospective validation is claimed.
 
-> ⚠️ **Supersedes an earlier, withdrawn version.** A prior preprint of this work
+> **Supersedes an earlier, withdrawn version.** A prior preprint of this work
 > (Zenodo 10.5281/zenodo.14241084) reported an SVR model at MAE 0.025 eV / R² 0.956,
 > a 27.7× active-learning speed-up, multi-objective Pareto optimisation, and
-> device-level EQE / k_RISC predictions. On review those results were found to rest
-> on **feature–target leakage** (regressing ΔE_ST on its own constituent S₁/T₁
-> energies, ΔE_ST ≡ E_{S₁}−E_{T₁}) and on molecule-independent device estimates, and
-> have been **withdrawn**. The honest benchmark below replaces them; the retired
-> active-learning / device scripts and figures have been removed from this deposit.
+> device-level EQE / k_RISC predictions. These rested on **feature–target leakage**
+> (regressing ΔE_ST on its own constituent S₁/T₁ energies) and on molecule-independent
+> device estimates, and have been **withdrawn**; the retired scripts and figures are
+> not in this deposit.
 
-#### Key Results (Article 3, honest benchmark)
+#### Holdout-unit results (A-016 to A-020, October 2026)
+
+| Quantity | Value |
+|----------|-------|
+| Median ρ, source-publication holdout | NTO 0.34 vs Morgan 0.17 (50 fold assignments; A-017, A-020) |
+| Contrast Δρ (NTO − Morgan) | 0.16, central 95% of 50 assignments 0.07–0.25; single-split value 0.19 with DOI-cluster 95% interval 0.014–0.366 (A-016) |
+| Repeated partitions (20) | NTO > Morgan in 19/20 (paper), 11/20 (scaffold), 13/20 (molecule) |
+| RDKit descriptors | ρ 0.30 (random) → 0.21 (paper) |
+| Within-paper ranking | ρ ≈ 0 for Morgan, RDKit and NTO (A-020) |
+| Series shortcut (A-019) | Morgan ρ on molecules with same-paper siblings 0.54 → 0.26 under paper holdout; ≈ 0.10 on single-paper molecules |
+| Noise ceiling | R²_max ≈ 0.80–0.86 (A-018; supersedes 0.71–0.91 from A-015) |
+
+Manuscript sources: `ARTICLEs_TADF/Article3_TADF-Emitter-Triage-Honest-Benchmark/JMGM_submission/`.
+
+#### Key Results carried over from the earlier version (Article 3, honest benchmark)
 
 | Quantity | Value |
 |----------|-------|
@@ -97,7 +111,7 @@ spans a negative gap, so the procedure refuses molecule-level selection.
 | Triplet manifold | T₁–T₂ for 14 emitters (CAM-B3LYP); sTDA-vs-CAM agreement unresolved (ρ = 0.43, p = 0.40, n = 6) |
 | Triage | 1.2–1.4× enrichment on held-out labelled data; **no ranked shortlist deposited** (conformal intervals refuse molecule-level selection) |
 | Triage enrichment CI | bootstrap 95% CI excludes no-enrichment (1.0×) only at the broader cutoffs (top-50, top-20%); at top-10/top-20 the CI includes 1.0 — not distinguishable from chance at n = 231 |
-| Noise ceiling on R² | R²_max = 0.71–0.91 depending on which label-noise floor is used (Crusius et al. framework); observed R² = 0.26 is 28–36% of that ceiling — label noise bounds accuracy but does not by itself explain the residual gap |
+| Noise ceiling on R² | R²_max ≈ 0.80–0.86 with per-molecule label noise (A-018; supersedes 0.71–0.91); observed R² = 0.26 is about 30–32% of that ceiling — label noise bounds accuracy but does not by itself explain the residual gap |
 | Condition-controlled test | source-paper proxy (no solvent metadata exists): **null**, Δ advantage 0.005 eV, CI −0.014 to 0.035 |
 | Circularity / leakage | quantified: linear model given the constituent energies recovers the target exactly (CV R² = 1.000) vs 0.36 without; an axis-aligned random forest reaches only 0.59 on the same leaked features, so the leak passes CV unremarked |
 | Estimator selection | nested CV reproduces the reported MAE exactly; selection optimism 0.000 eV |
@@ -116,9 +130,9 @@ min); **A-013** adds a frozen pretrained-transformer (ChemBERTa-77M) baseline th
 fails to beat the hand-built descriptors (MAE 0.109–0.113 eV; paired vs Morgan +0.022 eV,
 CI 0.008–0.034); **A-014** adds a bootstrap CI to the triage/enrichment numbers, showing
 the effect is significant only at the broader cutoffs; **A-015** computes the maximum
-achievable R² under the Crusius et al. label-noise framework (R²_max = 0.71–0.91), showing
+achievable R² under the Crusius et al. label-noise framework (R²_max ≈ 0.80–0.86, per-molecule noise; supersedes 0.71–0.91), showing
 the observed R² = 0.26 sits well below even the most permissive noise ceiling. Superseded
-entries are in `ML_reproducibility/analysis-ledger-archive/`.
+entries are in `ML_reproducibility/analysis-ledger-archive/`. **A-016** adds a paper-unit (173 DOI groups) bootstrap and 20 repeated source-paper partitions; **A-017** repeats the contrast under 50 random fold assignments for three holdout units; **A-018** replaces the A-015 ceiling with a per-molecule label-noise ceiling; **A-019** tests a series/publication shortcut; **A-020** adds an RDKit control, within-paper ranking and a single-paper contrast interval.
 
 **A note on the enrichment files.** Three deposited files report enrichment under
 different but individually correct conventions: `enrichment_curve.json` is the Morgan
@@ -141,7 +155,7 @@ infrastructure. Article 3 evaluates the 231-molecule experimentally-labelled sub
 extends the chemical space with the virtual library (see `virtual_library_expansion/`),
 and deposits its honest analysis code and outputs in `ML_reproducibility/code/` and
 `ML_reproducibility/data/`. The manuscript (PDF + sources) is in
-`ARTICLEs_TADF/Article3_TADF-Emitter-Triage-Honest-Benchmark/`.
+`ARTICLEs_TADF/Article3_TADF-Emitter-Triage-Honest-Benchmark/JMGM_submission/`.
 
 ---
 
@@ -216,6 +230,7 @@ headline number traces to a file in `data/`, regenerated by a script in `code/`.
 - `enrichment_curve.py`, `triage_evaluation.py`, `build_shortlist.py` — triage + conformal intervals
   (`build_shortlist.py` is retained because it produces the reported *negative* result: the
   intervals are ~7.6× the predicted gap, so no ranked list is released)
+- `jmgm_doi_group_ranking_check.py` (A-016), `a017_split_unit_controls.py`, `a018_noise_ceiling_heterogeneous.py`, `a019_series_shortcut_test.py`, `a020_controls.py`, `fig_holdout_unit_ranking.py` — holdout-unit analyses for the JMGM version
 - `create_dft_benchmark_table.py`, `uq_calibration.py`, `si_supplementary_data.py`, `interactive_umap.py` — SI artifacts
 
 **`data/`** — Verified model outputs:
@@ -225,6 +240,7 @@ headline number traces to a file in `data/`, regenerated by a script in `code/`.
 - `triplet_manifold.csv` (+ `triplet_manifold_stats.json`) — T₁–T₂ manifold (14 emitters)
 - `vertical_vs_adiabatic_comparison.csv`, `adiabatic_validation_stats.json` — adiabatic check
 - `enrichment_curve.json`, `triage_metrics.json` — triage curves (no shortlist is deposited)
+- `a016_jmgm_doi_group_input.csv` (231 modelling rows, 35 NTO features, SMILES, primary DOI), `a016_jmgm_doi_group_ranking.json`, `a017_split_unit_controls.json`, `a018_noise_ceiling_heterogeneous.json`, `a019_series_shortcut_test.json`, `a020_controls.json` — holdout-unit analyses
 - `shap_*`, `perm_importance.json`, `dft_benchmark_*` — supporting analyses
 
 **`features/`** — Pre-computed descriptor tables (model inputs):
@@ -312,7 +328,13 @@ ML_reproducibility/
 │   ├── adiabatic_validation_analysis.py      # Vertical vs adiabatic gap
 │   ├── enrichment_curve.py                   # Triage precision curve + conformal
 │   ├── triage_evaluation.py                  # Enrichment / precision@k
-│   └── build_shortlist.py                    # Conformal intervals (no list released)
+│   ├── build_shortlist.py                    # Conformal intervals (no list released)
+│   ├── jmgm_doi_group_ranking_check.py       # A-016: DOI-cluster bootstrap, 20 paper partitions
+│   ├── a017_split_unit_controls.py           # A-017: holdout unit (DOI/scaffold/molecule), 50 seeds
+│   ├── a018_noise_ceiling_heterogeneous.py   # A-018: per-molecule label-noise R2_max
+│   ├── a019_series_shortcut_test.py          # A-019: series/publication shortcut test
+│   ├── a020_controls.py                      # A-020: RDKit control, within-paper rho
+│   └── fig_holdout_unit_ranking.py           # JMGM holdout-unit figure
 ├── data/                                     # Verified outputs (every headline number)
 ├── features/                                 # Pre-computed descriptor tables (inputs)
 └── scripts/data_processing/                  # Feature-building (sTDA parse, CT/NTO, merge)
@@ -354,6 +376,29 @@ python enrichment_curve.py
 python build_shortlist.py           # conformal intervals; no ranked list is deposited
 ```
 
+```bash
+# 6. Holdout-unit analyses for the JMGM version (A-016 to A-020), run in this order
+cd ML_reproducibility/code
+python jmgm_doi_group_ranking_check.py --input-csv ../data/a016_jmgm_doi_group_input.csv   # A-016
+python a017_split_unit_controls.py      # -> ../data/a017_split_unit_controls.json
+python a018_noise_ceiling_heterogeneous.py
+python a019_series_shortcut_test.py
+python a020_controls.py
+python fig_holdout_unit_ranking.py      # needs a manuscript-tree path, see note below
+```
+
+> **Path assumptions.** The A-017, A-019 and A-020 scripts read
+> `ML_reproducibility/data/a016_jmgm_doi_group_input.csv` and `_dataset.py` and run as
+> deposited. `_dataset.py`, `finalize_model.py`, `a018_noise_ceiling_heterogeneous.py`
+> and `jmgm_doi_group_ranking_check.py` (without `--input-csv`) read
+> `MCA_submission/tables/experimental_delta_est_extracted.csv` and
+> `CALCULATIONS-MADE/data_processing/combined_features_747mol_full_ct.csv` relative to
+> the working manuscript repository; neither path exists in this deposit (the feature
+> matrix is in `ML_reproducibility/features/`). `fig_holdout_unit_ranking.py` writes
+> into `next_submission_manuscript/jmgm/figures/`. Run those from the manuscript
+> repository, or copy the files to the paths named. The ledger also cites
+> `outputs/extract/*` run logs that are not deposited.
+>
 > Scripts use paths as published; the feature matrix is in
 > `ML_reproducibility/features/combined_features_747mol_full_ct.csv`. Re-run from the
 > manuscript repository for exact path resolution.
@@ -440,7 +485,18 @@ If you use this data or scripts, please cite the relevant article(s):
   author  = {Tchapet Njafa, Jean-Pierre and Teguia Kouam, Steve Cabrel and
              Mvoto Kongo, Patrick Sorrel and Samafou, Panebei and
              Nana Engo, Serge Guy},
-  journal = {RSC Advances},
+  journal = {RSC Advances (earlier version; not accepted)},
+  year    = {2026},
+  doi     = {10.5281/zenodo.17436069}
+}
+
+@misc{tchapet2026holdout,
+  title   = {Publication-Level Holdout Separates Fingerprint and Excited-State
+             Descriptor Models of Measured {TADF} Gaps},
+  author  = {Tchapet Njafa, Jean-Pierre and Teguia Kouam, Steve Cabrel and
+             Mvoto Kongo, Patrick Sorrel and Samafou, Panebei and
+             Nana Engo, Serge Guy},
+  note    = {Prepared for submission to J. Mol. Graph. Model.; data: Zenodo concept DOI},
   year    = {2026},
   doi     = {10.5281/zenodo.17436069}
 }
@@ -463,7 +519,9 @@ jean-pierre.tchapet@facsciences-uy1.cm
 
 ---
 
-*Last updated: 13 September 2026 — synced to the post-audit revision round
+*Last updated: 6 October 2026 — Article 3 re-targeted to J. Mol. Graph. Model. (JMGM_submission/, ledger entries A-016 to A-020). The notes below describe the 13 September 2026 state.*
+
+*Earlier update: 13 September 2026 — synced to the post-audit revision round
 (AUDIT_REPORT.md, 2026-09-12/13). Key changes incorporated this round:
 (i) manuscript title changed to the noise-floor-led framing, "Experimental
 Inter-Report Scatter Bounds Machine-Learning Accuracy for TADF Singlet–Triplet
@@ -474,7 +532,7 @@ the cover letter itself added to `ARTICLEs_TADF/Article3_.../` (previously
 missing from this deposit); (iii) **A-014** adds a bootstrap CI to the
 triage/enrichment numbers (significant only at top-50/top-20%, not at
 top-10/top-20); (iv) **A-015** computes the Crusius et al. noise-ceiling
-R²_max = 0.71–0.91, showing the observed R² = 0.26 is 28–36% of that ceiling;
+R²_max ≈ 0.80–0.86 (per-molecule noise; supersedes 0.71–0.91), showing the observed R² = 0.26 is about 30–32% of that ceiling;
 both are new rows in the Key Results table and new entries in
 `ML_reproducibility/analysis-ledger.md`, with their code/data
 (`code/enrichment_ci.py`, `data/enrichment_ci.json`,

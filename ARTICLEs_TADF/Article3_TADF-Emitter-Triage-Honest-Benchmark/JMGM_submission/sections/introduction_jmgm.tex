@@ -1,0 +1,152 @@
+% ============================================================
+% JMGM Introduction — F3-b re-scope (2026-10-06)
+% Central question: do semi-empirical NTO descriptors retain rank information on
+% measured TADF gaps that fingerprints lose on publications absent from training?
+% Numbers trace to ledger A-006, A-007, A-016--A-020 and the Results section.
+% ============================================================
+
+\section{Introduction}\label{sec:introduction}
+
+\subsection{Predicting the singlet--triplet gap of TADF emitters}
+
+Thermally activated delayed fluorescence (TADF) emitters---organic donor--acceptor
+molecules that harvest both singlet and triplet excitons for near-unity internal
+quantum efficiency~\cite{Uoyama2012}---are the heavy-metal-free route to tunable,
+efficient light sources for displays and for human-centric and horticultural
+lighting~\cite{Yokoyama_2018, Bugbee2016}. An efficient emitter has to meet several
+requirements at once: a small singlet--triplet gap
+($\Delta E_\text{ST} < \qty{0.2}{\electronvolt}$), fast reverse intersystem crossing
+($k_\text{RISC} > \qty{1e6}{\per\second}$), and emission matched to the target band.
+This paper addresses only the first. The rate and device-efficiency requirements need
+spin--orbit-coupling and device-level calculations beyond the cheap structural data
+used here, and we make no quantitative claim about them (\cref{subsec:limitations}).
+
+\subsection{Machine learning on computed and measured gaps}
+
+Designing such emitters means searching a large space of donor--acceptor
+combinations for a small $\Delta E_\text{ST}$. The direct route---time-dependent
+DFT on excited states---scales steeply with system size~\cite{Curtarolo2013},
+so exhaustive screening of more than a few hundred candidates is impractical.
+Machine learning offers a cheaper surrogate~\cite{Butler2018, Pyzer-Knapp2022},
+and several groups have predicted TADF gaps from molecular
+descriptors~\cite{Gomez-Bombarelli2016, Barneschi2024}. Those low reported errors
+are obtained against \emph{computed} (TD-DFT or higher) reference gaps. Nigam
+et al.~\cite{Nigam2024} also worked with computed labels, gaps simulated at the
+$\omega$B2PLYP$'$ level, and replaced an early regression model with a good/bad
+classifier (\cref{subsec:comparison}); their study does not show how models behave
+on measured gaps. The closest prior work on measured gaps is that of He
+et al.~\cite{He2026}, who trained machine-learning models on \num{1321}
+experimental $\Delta E_\text{ST}$ records with measurement-condition features.
+Neither study compares a structural fingerprint with a semi-empirical
+excited-state representation under molecule, scaffold and source-publication
+holdout, which is the comparison made here.
+Experimental molecular-property learning is not, by itself, a new approach:
+JMGM studies have combined explainable predictors with experimental
+ligand--receptor observations~\cite{Ferri2026TAS2R} and modelled experimental
+infrared peaks~\cite{Noreen2026IR}. Our question concerns the representation and
+the unit that is held out.
+
+One problem recurs in this literature. Accuracy is often quoted against a single random train--test split, which rewards
+interpolation within familiar scaffolds and overstates how a model behaves on new
+chemistry. Literature-mined corpora sharpen this problem: one publication usually
+reports a series of close analogues measured under one protocol, so a random or
+scaffold split leaves same-paper siblings of a test molecule in training.
+
+Our earlier work set the stage: Article~1~\cite{Tchapet2024_xTB} benchmarked in JCIM
+GFN2-xTB/sTDA against \num{747} experimental molecules
+(MAE = \qty{0.162}{\electronvolt}), xTB geometry relaxations, and scaffold
+cross-validation, and Article~2~\cite{Tchapet2024_DataDriven}
+extracted structure--property design rules from that set. Here we ask: do
+semi-empirical natural-transition-orbital (NTO) descriptors retain rank information
+on measured TADF singlet--triplet gaps that structural fingerprints lose when
+molecules come from publications absent from training? The measured gaps come from
+the ChemDataExtractor-generated TADF database of Huang and Cole~\cite{HuangCole2024};
+after matching to our descriptor set they cover \num{231} donor--acceptor emitters
+from \num{173} publications.
+
+\subsection{Our contributions}
+
+We compare error and rank ordering under three holdout units rather than claim a
+new high-accuracy predictor. The answer to the question is yes, within this
+corpus: under source-paper holdout the NTO model orders emitters across
+publications absent from training with median Spearman $\rho = 0.34$, against
+$0.17$ for Morgan fingerprints. Neither representation orders molecules within a
+held-out paper, and neither has lower error than the other. The points below
+follow the order of the Results.
+
+\paragraph{Fingerprint and NTO models have similar error.}
+On \num{231} molecules across \num{212} Bemis--Murcko scaffolds, random forests built
+from the 2D structure alone---Morgan fingerprints (MAE = \qty{0.091}{\electronvolt}) and
+RDKit descriptors (\qty{0.100}{\electronvolt})---match descriptors derived from a
+semi-empirical excited-state calculation (NTO spatial features,
+\qty{0.096}{\electronvolt}); the Morgan and NTO models sit only \qtyrange{10}{15}{\percent}
+below a mean-value predictor (\qty{0.107}{\electronvolt}). The paired MAE difference is $-\qty{0.0043}{\electronvolt}$ for Morgan minus NTO
+(\qty{95}{\percent} CI \qtyrange{-0.0171}{+0.0092}{\electronvolt}). The error
+comparison does not move with the holdout unit: under source-paper holdout the
+median Morgan-minus-NTO difference is \qty{-0.0004}{\electronvolt}. Unlike a
+physics-guided model trained on NTO descriptors against a \emph{computed} reference
+gap~\cite{Das2025}, we test the same class of descriptor against the
+\emph{measured} gap.
+
+\paragraph{Fingerprint ranking depends on same-publication molecules.}
+Over \num{50} random fold assignments, the NTO-minus-Morgan rank difference is
+$\Delta\rho = 0.160$ under source-paper holdout (range \numrange{0.07}{0.25}),
+against \num{0.073} under scaffold and \num{0.055} under molecule holdout; NTO ranks
+higher in \num{19} of \num{20} repeated paper partitions, against \num{11} and
+\num{13} of \num{20} for matched scaffold and molecule partitions. The ranges
+describe fold-assignment variability, not confidence intervals. NTO $\rho$ stays
+between \num{0.337} and \num{0.352} across units; Morgan $\rho$ falls from
+\num{0.305} to \num{0.172}. The drop sits on molecules with same-paper siblings:
+for them Morgan $\rho$ is \num{0.54} when siblings are in training and \num{0.26}
+when the paper is held out, while on the \num{128} molecules from single-molecule
+papers it is \num{0.10} under either holdout. NTO is higher on those molecules, but
+the seed-averaged NTO-minus-Morgan contrast there ($\Delta\rho = \num{0.16}$,
+\qty{95}{\percent} CI \numrange{-0.05}{0.37}) is not resolved. RDKit 2D
+descriptors lose rank under paper holdout as Morgan does ($\rho$ \num{0.303} to
+\num{0.209}), so among the three sets tested the invariance belongs to the NTO
+descriptors. NTO orders emitters across publications absent from training; no
+representation orders molecules within a held-out paper. Siblings share close
+structure and measurement protocol, and these tests cannot separate the two, so we
+report the dependence as an association.
+
+\paragraph{Label scatter leaves room the models do not use.}
+Independent experimental reports for the same compound scatter by
+\qty{0.072}{\electronvolt} RMS (the largest within-molecule standard deviation is
+\qty{0.56}{\electronvolt}). For the \num{102} molecules with several reports, the
+median label has an RMS standard error of \qty{0.049}{\electronvolt}; counting the
+\num{129} single-report labels at single-report scatter, label noise over all
+\num{231} molecules is about \qty{0.072}{\electronvolt} RMS.
+Individual discrepancies in reported $\Delta E_\text{ST}$ have been noted for
+TADF emitters~\cite{Shuaib2026}; here we quantify inter-report variability
+across the \num{231}-molecule corpus drawn from \num{173} papers.
+Applying the noise-ceiling framework of Crusius et al.~\cite{Crusius2025} with
+per-molecule label noise gives $R^2_\text{max} \approx 0.80$--\num{0.86}
+(\cref{subsec:ceilings}), well above the observed $R^2 \approx 0.26$, so label
+noise is not the dominant limit and it does not establish a
+\qty{0.1}{\electronvolt} MAE floor. Computed references face a separate limit:
+B3LYP and CAM-B3LYP gaps differ by up to \qty{0.58}{\electronvolt}. On this corpus
+neither a higher-capacity tabular learner (gradient boosting, MLP, SVR) nor the one
+frozen pretrained molecular-transformer embedding we tested beats the random forest
+(the latter reaches MAE \qtyrange{0.109}{0.113}{\electronvolt}). Low-gap enrichment
+on held-out labelled data (\numrange{1.2}{1.4}$\times$ over random) and a filtered
+virtual library are reported in the SI; neither supports molecule-level selection,
+and we make no device-level performance claims.
+
+This study builds on our earlier work---\textbf{Article~1}~\cite{Tchapet2024_xTB}
+(xTB/sTDA validation) and \textbf{Article~2}~\cite{Tchapet2024_DataDriven} (design
+rules)---by testing how the holdout unit changes the comparison on measured labels.
+The measured labels come from the Huang--Cole TADF database~\cite{HuangCole2024}.
+Data, code and the analysis ledger for the three related articles are archived under
+Zenodo concept DOI 10.5281/zenodo.17436069 (latest version) and mirrored on GitHub; the
+scripts and outputs of the holdout analyses reported here are in that archive and are
+also supplied as Supplementary Data (see the Data and code availability statement).
+
+The contribution of this work is a matched comparison of three holdout units
+(molecule, scaffold and source publication) on the same \num{231} measured gaps,
+which shows that fingerprint and RDKit ranking of measured TADF gaps depends on
+same-publication molecules in training while semi-empirical NTO ranking does not.
+The error null carries its own information. Because the NTO and fingerprint models
+do not differ in error, the sTDA calculation is not
+justified by accuracy; its measurable value is ranking across publications. The
+\qtyrange{10}{15}{\percent} gain over the mean-value predictor is the margin a new
+structure representation has to beat on these labels.

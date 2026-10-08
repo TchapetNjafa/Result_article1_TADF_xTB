@@ -1,0 +1,97 @@
+% ============================================================
+% JMGM Conclusions — F3-b re-scope (2026-10-06); no numbers beyond Results.
+% ============================================================
+
+\section{Conclusions}\label{sec:conclusions}
+
+Do semi-empirical NTO descriptors retain rank information on measured TADF
+singlet--triplet gaps that structural fingerprints lose when molecules come from
+publications absent from training? In this corpus they do: under source-paper
+holdout the NTO model orders emitters across publications absent from training with
+median Spearman $\rho = 0.34$, against $0.17$ for Morgan fingerprints. The
+contribution is a matched three-unit holdout comparison showing that fingerprint
+and RDKit ranking of measured TADF gaps depends on same-publication molecules in
+training, while semi-empirical NTO ranking does not. Neither representation orders
+molecules within a held-out paper, and neither has lower error than the other.
+Three results delimit that answer.
+
+\paragraph{Fingerprint and NTO models do not differ in error.}
+Random forests built from the 2D structure alone---Morgan fingerprints
+(MAE = \qty{0.091}{\electronvolt}) and RDKit descriptors
+(\qty{0.100}{\electronvolt})---predict experimental $\Delta E_\text{ST}$ as well
+as NTO descriptors derived from a semi-empirical excited-state calculation
+(\qty{0.096}{\electronvolt}), against \qty{0.107}{\electronvolt} for the mean-value
+predictor; the paired Morgan-minus-NTO MAE difference has a \qty{95}{\percent} CI of
+\numrange{-0.0171}{+0.0092}~eV, and it stays near zero under paper holdout. Both
+the Morgan and NTO models sit only \qtyrange{10}{15}{\percent} below the mean. This
+null settles one design question: the sTDA calculation is not justified by
+accuracy, and its measurable value is ranking across publications. The
+\qtyrange{10}{15}{\percent} margin over the mean is the bar a new structure
+representation has to clear on these labels.
+
+\paragraph{The holdout unit, not the metric, sets the ranking contrast.}
+The NTO-minus-Morgan $\Delta\rho$ is \num{0.16}
+under source-paper holdout (\qtyrange{2.5}{97.5}{\percent} span \numrange{0.07}{0.25} over \num{50} fold
+assignments) against \num{0.073} under scaffold and \num{0.055} under molecule
+holdout. NTO ranks higher in \num{19} of \num{20} repeated paper partitions, but in
+only \num{11} and \num{13} of \num{20} matched scaffold and molecule partitions, so
+the \num{19}/\num{20} count belongs to the paper unit. The contrast comes from the
+fingerprint side: NTO $\rho$ is nearly constant across units, while Morgan $\rho$
+falls from \num{0.305} to \num{0.172}, and RDKit 2D descriptors fall with it
+(\num{0.303} to \num{0.209}), so among the three sets tested the invariance is
+specific to the NTO descriptors. Morgan ranks mainly molecules whose same-paper
+siblings are in training; on molecules from single-molecule papers its $\rho$ is
+\num{0.10}, and the NTO-minus-Morgan contrast on those molecules is not resolved
+(\qty{95}{\percent} CI \numrange{-0.05}{0.37}). Siblings share both close structure
+and measurement protocol, so this is an association, not an identified cause. SHAP
+on the NTO variant ties the learned signal to hole--electron overlap and
+charge-transfer character; it is an interpretable association, not a causal
+validation.
+
+Independent reports of the same compound
+scatter by \qty{0.072}{\electronvolt} RMS. For the \num{102} multi-report molecules
+the median label has an RMS standard error of \qty{0.049}{\electronvolt}; over all
+\num{231} labels the estimated noise is about \qty{0.072}{\electronvolt} RMS, a
+measurable part of the error budget but not all of it. Across \num{231}
+molecules and \num{173} source papers, the report scatter supplies a direct
+estimate of measurement variability. Error is lower on molecules whose
+replicate reports agree (\qty{0.074}{\electronvolt} against
+\qty{0.106}{\electronvolt}), but a constant predictor reproduces that ordering:
+it reflects different spreads of the target, not evidence that removing label
+noise alone improves the model. The estimated ceiling,
+$R^2_\text{max} \approx 0.80$--\num{0.86}, lies well above the observed
+$R^2 \approx 0.26$. In the tested representation set a frozen
+pretrained molecular-transformer embedding reaches MAE
+\qtyrange{0.109}{0.113}{\electronvolt}, worse than the Morgan model; other
+representations remain untested. Separately, the computed gap is functional-dependent (mean
+\qty{0.30}{\electronvolt}, up to \qty{0.58}{\electronvolt} between B3LYP and
+CAM-B3LYP); this concerns computed references, not the experimental-label
+noise estimate.
+
+For modellers the consequence is practical. On literature-mined data, random and
+scaffold splits leave same-paper siblings in training and, in this corpus, overstate
+fingerprint ranking skill; a source-publication holdout should be reported with them
+before a representation is chosen for ranking. Where ranking on unseen publications
+matters, the semi-empirical NTO calculation is the representation that kept its rank
+information here: it orders emitters across publications absent from training,
+although no representation orders molecules within a held-out paper. As a triage filter the structure-based model enriches low-gap
+candidates \numrange{1.2}{1.4}$\times$ over random selection at broad cutoffs; at
+top-10 or top-20 the confidence intervals include random selection, and on the
+filtered library the conformal intervals are too wide for molecule-level selection,
+so no ranked shortlist is deposited.
+
+All results come from one corpus of \num{231} molecules: the holdout-unit comparison
+does not test transfer to a new laboratory or a controlled protocol, and
+\num{128} of the \num{173} papers contribute a single molecule. The target is one
+scalar, $\Delta E_\text{ST}$; the vertical NTO descriptors depart from adiabatic
+references by \qty{0.195}{\electronvolt} on average for \num{14} emitters, and the
+data do not support molecule-specific spin--orbit-coupling, $k_\text{RISC}$,
+emission-wavelength or external-quantum-efficiency estimates
+(\cref{subsec:limitations}).
+
+\paragraph{What a controlled benchmark could resolve.}
+Label noise of about \qty{0.072}{\electronvolt} RMS over the \num{231} molecules motivates
+single-source, solvent-controlled measurements, with documented host and
+protocol. Such a benchmark would separate measurement scatter from the
+remaining modelling headroom; it does not follow from these data that a
+better model could not improve on the current result.
