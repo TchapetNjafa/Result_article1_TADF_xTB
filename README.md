@@ -395,7 +395,7 @@ python fig_holdout_unit_ranking.py      # needs a manuscript-tree path, see note
 > `CALCULATIONS-MADE/data_processing/combined_features_747mol_full_ct.csv` relative to
 > the working manuscript repository; neither path exists in this deposit (the feature
 > matrix is in `ML_reproducibility/features/`). `fig_holdout_unit_ranking.py` writes
-> into `next_submission_manuscript/jmgm/figures/`. Run those from the manuscript
+> into `jmgm_manuscript/figures/`. Run those from the manuscript
 > repository, or copy the files to the paths named. The ledger also cites
 > `outputs/extract/*` run logs that are not deposited.
 >

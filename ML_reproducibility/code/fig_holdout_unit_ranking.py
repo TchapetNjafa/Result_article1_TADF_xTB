@@ -11,7 +11,7 @@ import numpy as np
 root = Path(__file__).resolve().parent.parent
 a17 = json.load(open(root / "data/a017_split_unit_controls.json"))
 a20 = json.load(open(root / "data/a020_controls.json"))["medians"]
-out = root / "next_submission_manuscript/jmgm/figures/holdout_unit_ranking.pdf"
+out = root / "jmgm_manuscript/figures/holdout_unit_ranking.pdf"
 
 MORGAN, NTO, RDKIT = "#D55E00", "#0072B2", "#009E73"  # Okabe-Ito
 plt.rcParams.update({"font.size": 8, "axes.spines.top": False, "axes.spines.right": False,
